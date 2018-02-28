@@ -3,10 +3,10 @@
 
 class Clasificador:
 
-    def __init__(self, clases, norm=False):
+    def __init__(self, clases: list, norm=False):
         pass
 
-    def entrena(self, datos, clases, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None, decrementar_tasa=False):
+    def entrena(self, datos, indice_clases, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None, decrementar_tasa=False):
         pass
 
     def clasifica_prob(self, ejemplo):
