@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
-# Importaciones de librerías requeridas
 import utils
-from datasets.votos import clasificacion, atributos, clases, entrenamiento, validacion, prueba, ejemplo
+from clasificadores.regresion_error_cuadratico_batch import ClasificadorRECB
+from datasets.votos import clases, entrenamiento, clases_entrenamiento, validacion, clases_validacion, test, clases_test
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
 # =============================================================================
 start_time = utils.comienzo_tiempo_ejecucion()
+
+clasificadorRECB = ClasificadorRECB(clases)
+clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, 10)
 
 
 # =============================================================================
