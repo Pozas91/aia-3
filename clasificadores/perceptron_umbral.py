@@ -48,7 +48,7 @@ class ClasificadorPU(Clasificador):
             epoch += 1
 
         # Generamos el gráfico
-        utils.generar_grafico(array_errores)
+        utils.generar_grafico(array_errores, 'Perceptrón Umbral')
         
         pass
     

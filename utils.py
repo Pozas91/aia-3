@@ -112,8 +112,9 @@ Genera un gráfico dado un parámetro de entrada: errores
 """
 
 
-def generar_grafico(errores):
+def generar_grafico(errores, title):
     plt.plot(range(1, len(errores) + 1), errores, marker='o')
+    plt.title(title)
     plt.xlabel('Epochs')
     plt.ylabel('Porcentaje de errores')
     plt.show()
