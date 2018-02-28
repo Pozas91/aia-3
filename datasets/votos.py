@@ -894,3 +894,6 @@ clases_test = ['democrata',
                'republicano',
                'republicano',
                'republicano']
+
+ejemplo = [-1, 1, -1, 1, 1, 1, -1, -1, -1, 1, 0, 1, 1, 1, -1, 1]
+ejemplo_clase = 'republicano'

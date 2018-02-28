@@ -2,6 +2,7 @@
 
 import time
 import math
+import pickle
 
 """
 Función utilizada para capturar el momento en el que comienza todo.
@@ -70,3 +71,27 @@ Devuelve la tasa de aprendizaje dado el número de epoch en que se encuentra.
 
 def rate_decay(tasa_inicial: float, epoch: int) -> float:
     return tasa_inicial + 2 / ((epoch ** 2) ** (1 / 3))
+
+
+"""
+Vuelca la información de los pesos iniciales en el fichero indicado
+"""
+
+
+def guardar_pesos(nombre_del_fichero: str, data: list) -> None:
+    with open(nombre_del_fichero, 'wb') as f:
+        pickle.dump(data, f)
+
+
+"""
+Recupera la información de los pesos del fichero indicado
+"""
+
+
+def recuperar_pesos(nombre_del_fichero: str) -> list:
+    try:
+
+        with open(nombre_del_fichero, 'rb') as f:
+            return pickle.load(f)
+    except FileNotFoundError:
+        return []
