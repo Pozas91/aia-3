@@ -2,6 +2,7 @@
 
 import time
 import math
+import matplotlib.pyplot as plt
 
 """
 Función utilizada para capturar el momento en el que comienza todo.
@@ -70,3 +71,15 @@ Devuelve la tasa de aprendizaje dado el número de epoch en que se encuentra.
 
 def rate_decay(tasa_inicial: float, epoch: int) -> float:
     return tasa_inicial + 2 / ((epoch ** 2) ** (1 / 3))
+
+
+"""
+Genera un gráfico dado un parámetro de entrada: errores
+"""
+
+
+def generar_grafico(errores):
+    plt.plot(range(1,len(errores)+1),errores,marker='o')
+    plt.xlabel('Epochs')
+    plt.ylabel('Porcentaje de errores')
+    plt.show()
