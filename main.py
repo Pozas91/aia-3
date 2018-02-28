@@ -16,16 +16,16 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # =============================================================================
 
 clasificadorRECB = ClasificadorRECB(clases)
-# clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, 10)
 
 
 clasificadorPU = ClasificadorPU(clases)
-clasificadorPU.entrena(entrenamiento, clases_entrenamiento, 10)
+# clasificadorPU.entrena(entrenamiento, clases_entrenamiento, 10)
 
 # =============================================================================
 # ENTRENAMIENTO CLASIFICADORES
 # =============================================================================
 
+# Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_recb = utils.recuperar_pesos(clasificadorRECB.fichero_de_volcado)
 n_epochs = 10
 clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_recb)
@@ -35,9 +35,10 @@ clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_in
 # =============================================================================
 
 probabilidad = clasificadorRECB.clasifica_prob(ejemplo)
+clase_probable = clasificadorRECB.clases[round(probabilidad)]
+porcentaje_exito = utils.ponderar_probabilidad(probabilidad)
 
-clasificado = "El Clasificador RECB Prob. ha clasificado el ejemplo con '{}' siendo el más probable '{}'".format(
-    probabilidad, clasificadorRECB.clases[round(probabilidad)])
+clasificado = "Clasificador RECB ha clasificado a: '{0}' con una seguridad del {1:2f}%".format(clase_probable, porcentaje_exito)
 print(clasificado)
 
 # =============================================================================

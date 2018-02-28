@@ -108,3 +108,33 @@ def generar_grafico(errores):
     plt.xlabel('Epochs')
     plt.ylabel('Porcentaje de errores')
     plt.show()
+
+
+"""
+Función que dada una probabilidad entre 0 y 1 te devuelve el porcentaje de aproximación a la clase más cercana.
+"""
+
+
+def ponderar_probabilidad(x: float) -> float:
+    if x > 0.5:
+        return probabilidad_ascendiente(x)
+    else:
+        return probabilidad_descendiente(x)
+
+
+"""
+Función que dada una probabilidad entre 0 y 0.5, devuelve un porcentaje de proximidad
+"""
+
+
+def probabilidad_descendiente(x: float) -> float:
+    return 100 - 200*x
+
+
+"""
+Función que dada una probabilidad entre 0.5 y 1, devuelve un porcentaje de proximidad
+"""
+
+
+def probabilidad_ascendiente(x: float) -> float:
+    return 200*x - 100
