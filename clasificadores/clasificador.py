@@ -4,7 +4,10 @@
 class Clasificador:
 
     def __init__(self, clases: list, norm=False):
-        pass
+        self.clases = clases
+        self.norm = norm
+        self.norm_media = 0.0
+        self.norm_desviacion = 0.0
 
     def entrena(self, entrenamiento, clases_entrenamiento, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None, decrementar_tasa=False):
         pass

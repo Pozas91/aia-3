@@ -21,6 +21,7 @@ class ClasificadorRECB(Clasificador):
 
             for j, _ in enumerate(entrenamiento):
                 o = utils.sigma(utils.pesos_por_atributo(pesos, entrenamiento[j]))
+                print(self.clases)
                 print(o)
                 pass
 
