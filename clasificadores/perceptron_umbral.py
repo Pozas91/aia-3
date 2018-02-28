@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class perceptron_umbral():
     
     def __init__(self, clases, norm=False):
