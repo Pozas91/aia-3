@@ -3,7 +3,9 @@
 import time
 import math
 import pickle
+import random
 import matplotlib.pyplot as plt
+from copy import deepcopy
 
 """
 Función utilizada para capturar el momento en el que comienza todo.
@@ -77,11 +79,14 @@ def rate_decay(tasa_inicial: float, epoch: int) -> float:
 """
 Convirte republicano en 0 y demócrata en 1
 """
+
+
 def convierte_republicano_democrata(voto):
     if voto == 'republicano':
         return 0
     else:
         return 1
+
 
 """
 Vuelca la información de los pesos iniciales en el fichero indicado
@@ -138,7 +143,7 @@ Función que dada una probabilidad entre 0 y 0.5, devuelve un porcentaje de prox
 
 
 def probabilidad_descendiente(x: float) -> float:
-    return 100 - 200*x
+    return 100 - 200 * x
 
 
 """
@@ -147,4 +152,64 @@ Función que dada una probabilidad entre 0.5 y 1, devuelve un porcentaje de prox
 
 
 def probabilidad_ascendiente(x: float) -> float:
-    return 200*x - 100
+    return 200 * x - 100
+
+
+"""
+Genera un ejemplo aleatorio de datos de tamaño n
+"""
+
+
+def generar_ejemplo_aleatorio(n: int) -> list:
+    # Le quitamos uno, por que tenemos el término independiente
+    return [1] + [random.randint(-1, 1) for _ in range(0, n - 1)]
+
+
+"""
+Genera un conjunto completo de ejemplos aleatorios linealmente independientes, devuelve como resultado la
+tupla(ejemplos, clases)
+"""
+
+
+def generar_conjunto_independiente(total_atributos: int, total_elementos: int, w: list, clases: list) -> (list, list):
+
+    total_ejemplos = []
+    total_clases = []
+
+    for _ in range(0, total_elementos):
+        # Cada ejemplo será de la misma longitud de un ejemplo que tenemos verificado
+        x = generar_ejemplo_aleatorio(total_atributos)
+
+        # Sacamos el resultado de esos pesos
+        wx = pesos_por_atributo(w, x)
+
+        # Sacamos la clase a la que pertenece para que sea linealmente independiente
+        c = clases[umbral(wx)]
+
+        total_ejemplos.append(x)
+        total_clases.append(c)
+
+    return total_ejemplos, total_clases
+
+
+"""
+Genera un conjunto de clases independientes dado un conjunto independiente de clases
+"""
+
+
+def generar_conjunto_dependiente(clases_independientes: list, clases: list, porcentaje: float):
+
+    total_clases = len(clases_independientes)
+    total_cogidas = round(total_clases * porcentaje)
+    clases_dependientes = deepcopy(clases_independientes)
+
+    indices = [i for i in range(0, total_clases)]
+    random.shuffle(indices)
+
+    indices_cogidos = [indices[i] for i in range(0, total_cogidas)]
+
+    for i in indices_cogidos:
+        indice_clase = clases.index(clases_dependientes[i])
+        clases_dependientes[i] = clases[0] if indice_clase == 1 else clases[1]
+
+    return clases_dependientes

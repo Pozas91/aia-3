@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import utils
+from copy import deepcopy
 from clasificadores.perceptron_umbral import ClasificadorPU
 from clasificadores.regresion_error_cuadratico_batch import ClasificadorRECB
 from clasificadores.regresion_error_cuadratico_estocastica import ClasificadorRECE
@@ -31,23 +32,33 @@ clasificadorRVE = ClasificadorRVE(clases)
 # Número de epochs a realizar
 n_epochs = 10
 
-clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
+# clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_recb = utils.recuperar_pesos(clasificadorRECB.fichero_de_volcado)
-clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_recb)
+# clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_recb)
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rece = utils.recuperar_pesos(clasificadorRECE.fichero_de_volcado)
-clasificadorRECE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rece)
+# clasificadorRECE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rece)
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rvb = utils.recuperar_pesos(clasificadorRVB.fichero_de_volcado)
-clasificadorRVB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rvb)
+# clasificadorRVB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rvb)
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rve = utils.recuperar_pesos(clasificadorRVE.fichero_de_volcado)
-clasificadorRVE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rve)
+
+
+# clasificadorRVE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rve)
+
+# ==================================================================================
+# Conjunto aleatorio de elementos para probar el correcto funcionamiento del sistema
+# ==================================================================================
+
+ejemplos_independientes, clases_ejemplos_independientes = utils.generar_conjunto_independiente(len(ejemplo), 300, clasificadorRVE.pesos, clases)
+ejemplos_dependientes = deepcopy(ejemplos_independientes)
+clases_ejemplos_dependientes = utils.generar_conjunto_dependiente(clases_ejemplos_independientes, clases, 0.3)
 
 # =============================================================================
 # CLASIFICACION DE EJEMPLOS
