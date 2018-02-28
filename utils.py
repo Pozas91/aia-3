@@ -2,6 +2,7 @@
 
 import time
 import math
+import pickle
 import matplotlib.pyplot as plt
 
 """
@@ -82,6 +83,29 @@ def convierte_republicano_democrata(voto):
     else:
         return 1
 
+"""
+Vuelca la información de los pesos iniciales en el fichero indicado
+"""
+
+
+def guardar_pesos(nombre_del_fichero: str, data: list) -> None:
+    with open(nombre_del_fichero, 'wb') as f:
+        pickle.dump(data, f)
+
+
+"""
+Recupera la información de los pesos del fichero indicado
+"""
+
+
+def recuperar_pesos(nombre_del_fichero: str) -> list:
+    try:
+
+        with open(nombre_del_fichero, 'rb') as f:
+            return pickle.load(f)
+    except FileNotFoundError:
+        return []
+
 
 """
 Genera un gráfico dado un parámetro de entrada: errores
@@ -89,7 +113,37 @@ Genera un gráfico dado un parámetro de entrada: errores
 
 
 def generar_grafico(errores):
-    plt.plot(range(1,len(errores)+1),errores,marker='o')
+    plt.plot(range(1, len(errores) + 1), errores, marker='o')
     plt.xlabel('Epochs')
     plt.ylabel('Porcentaje de errores')
     plt.show()
+
+
+"""
+Función que dada una probabilidad entre 0 y 1 te devuelve el porcentaje de aproximación a la clase más cercana.
+"""
+
+
+def ponderar_probabilidad(x: float) -> float:
+    if x > 0.5:
+        return probabilidad_ascendiente(x)
+    else:
+        return probabilidad_descendiente(x)
+
+
+"""
+Función que dada una probabilidad entre 0 y 0.5, devuelve un porcentaje de proximidad
+"""
+
+
+def probabilidad_descendiente(x: float) -> float:
+    return 100 - 200*x
+
+
+"""
+Función que dada una probabilidad entre 0.5 y 1, devuelve un porcentaje de proximidad
+"""
+
+
+def probabilidad_ascendiente(x: float) -> float:
+    return 200*x - 100

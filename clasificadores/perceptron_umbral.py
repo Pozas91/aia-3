@@ -46,12 +46,6 @@ class ClasificadorPU(Clasificador):
             
             array_errores.append(errores)
             epoch += 1
-        
-        print('tamaño entrenamiento: {0}'.format(len(entrenamiento)))
-        print('tamaño pesos: {0}'.format(len(pesos)))
-        print(pesos)
-        
-        print(array_errores)
 
         # Generamos el gráfico
         utils.generar_grafico(array_errores)

@@ -18,7 +18,7 @@ class Clasificador:
     def clasifica(self, ejemplo):
         pass
 
-    def evalua(self, datos):
+    def evalua(self, conjunto_prueba, clases_conjunto_prueba):
         pass
 
     def imprime(self):
