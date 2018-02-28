@@ -2,7 +2,9 @@
 
 import utils
 from clasificadores.regresion_error_cuadratico_batch import ClasificadorRECB
-from datasets.votos import clases, entrenamiento, clases_entrenamiento, validacion, clases_validacion, test, clases_test, ejemplo, ejemplo_clase
+from clasificadores.perceptron_umbral import ClasificadorPU
+from datasets.votos import clases, entrenamiento, clases_entrenamiento, validacion, clases_validacion, test, \
+    clases_test, ejemplo, ejemplo_clase
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
@@ -10,10 +12,15 @@ from datasets.votos import clases, entrenamiento, clases_entrenamiento, validaci
 start_time = utils.comienzo_tiempo_ejecucion()
 
 # =============================================================================
-# INICIALIZACIÓN CLASIFICADORES
+# CLASIFICADORES
 # =============================================================================
 
 clasificadorRECB = ClasificadorRECB(clases)
+# clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, 10)
+
+
+clasificadorPU = ClasificadorPU(clases)
+clasificadorPU.entrena(entrenamiento, clases_entrenamiento, 10)
 
 # =============================================================================
 # ENTRENAMIENTO CLASIFICADORES
@@ -29,7 +36,8 @@ clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_in
 
 probabilidad = clasificadorRECB.clasifica_prob(ejemplo)
 
-clasificado = "El Clasificador RECB Prob. ha clasificado el ejemplo con '{}' siendo el más probable '{}'".format(probabilidad, clasificadorRECB.clases[round(probabilidad)])
+clasificado = "El Clasificador RECB Prob. ha clasificado el ejemplo con '{}' siendo el más probable '{}'".format(
+    probabilidad, clasificadorRECB.clases[round(probabilidad)])
 print(clasificado)
 
 # =============================================================================

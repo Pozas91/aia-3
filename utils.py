@@ -3,6 +3,7 @@
 import time
 import math
 import pickle
+import matplotlib.pyplot as plt
 
 """
 Función utilizada para capturar el momento en el que comienza todo.
@@ -95,3 +96,15 @@ def recuperar_pesos(nombre_del_fichero: str) -> list:
             return pickle.load(f)
     except FileNotFoundError:
         return []
+
+
+"""
+Genera un gráfico dado un parámetro de entrada: errores
+"""
+
+
+def generar_grafico(errores):
+    plt.plot(range(1, len(errores) + 1), errores, marker='o')
+    plt.xlabel('Epochs')
+    plt.ylabel('Porcentaje de errores')
+    plt.show()
