@@ -2,6 +2,7 @@
 
 import utils
 from clasificadores.regresion_error_cuadratico_batch import ClasificadorRECB
+from clasificadores.regresion_error_cuadratico_estocastica import ClasificadorRECE
 from clasificadores.perceptron_umbral import ClasificadorPU
 from datasets.votos import clases, entrenamiento, clases_entrenamiento, validacion, clases_validacion, test, \
     clases_test, ejemplo, ejemplo_clase
@@ -12,23 +13,29 @@ from datasets.votos import clases, entrenamiento, clases_entrenamiento, validaci
 start_time = utils.comienzo_tiempo_ejecucion()
 
 # =============================================================================
-# CLASIFICADORES
+# INICIALIZANDO CLASIFICADORES
 # =============================================================================
 
-clasificadorRECB = ClasificadorRECB(clases)
-
-
 clasificadorPU = ClasificadorPU(clases)
-# clasificadorPU.entrena(entrenamiento, clases_entrenamiento, 10)
+clasificadorRECB = ClasificadorRECB(clases)
+clasificadorRECE = ClasificadorRECE(clases)
 
 # =============================================================================
 # ENTRENAMIENTO CLASIFICADORES
 # =============================================================================
 
+n_epochs = 10
+clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
+
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_recb = utils.recuperar_pesos(clasificadorRECB.fichero_de_volcado)
 n_epochs = 10
 clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_recb)
+
+# Si existen pesos anteriores, los recuperará, si no serán 0.
+pesos_iniciales_rece = utils.recuperar_pesos(clasificadorRECE.fichero_de_volcado)
+n_epochs = 10
+clasificadorRECE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rece)
 
 # =============================================================================
 # CLASIFICACION DE EJEMPLOS
@@ -41,12 +48,23 @@ porcentaje_exito = utils.ponderar_probabilidad(probabilidad)
 clasificado = "Clasificador RECB ha clasificado a: '{0}' con una seguridad del {1:2f}%".format(clase_probable, porcentaje_exito)
 print(clasificado)
 
+probabilidad = clasificadorRECE.clasifica_prob(ejemplo)
+clase_probable = clasificadorRECE.clases[round(probabilidad)]
+porcentaje_exito = utils.ponderar_probabilidad(probabilidad)
+
+clasificado = "Clasificador RECE ha clasificado a: '{0}' con una seguridad del {1:2f}%".format(clase_probable, porcentaje_exito)
+print(clasificado)
+
 # =============================================================================
 # EVALUAMOS EL MODELO
 # =============================================================================
 
 rendimiento = clasificadorRECB.evalua(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
 evaluado = "Rendimiento Clasificador RECB Prob.: {0:.1f}%".format(round(rendimiento * 100, 1))
+print(evaluado)
+
+rendimiento = clasificadorRECE.evalua(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
+evaluado = "Rendimiento Clasificador RECE Prob.: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
 # =============================================================================
