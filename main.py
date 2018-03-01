@@ -31,38 +31,50 @@ clasificadorRVE = ClasificadorRVE(clases)
 
 # Número de epochs a realizar
 n_epochs = 10
+tasa_aprendizaje = 0.1
+decrementar_tasa = False
 
-# clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
+# Si existen pesos anteriores, los recuperará, si no serán 0.
+pesos_iniciales_pu = utils.recuperar_pesos(clasificadorPU.fichero_de_volcado)
+clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_recb = utils.recuperar_pesos(clasificadorRECB.fichero_de_volcado)
-# clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_recb)
+clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_recb)
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rece = utils.recuperar_pesos(clasificadorRECE.fichero_de_volcado)
-# clasificadorRECE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rece)
+clasificadorRECE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rece)
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rvb = utils.recuperar_pesos(clasificadorRVB.fichero_de_volcado)
-# clasificadorRVB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rvb)
+clasificadorRVB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rvb)
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rve = utils.recuperar_pesos(clasificadorRVE.fichero_de_volcado)
-
-
-# clasificadorRVE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rve)
+clasificadorRVE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rve)
 
 # ==================================================================================
 # Conjunto aleatorio de elementos para probar el correcto funcionamiento del sistema
 # ==================================================================================
 
-ejemplos_independientes, clases_ejemplos_independientes = utils.generar_conjunto_independiente(len(ejemplo), 300, clasificadorRVE.pesos, clases)
+# Al ejemplo tenemos que añadirle el término independiente
+ejemplos_independientes, clases_ejemplos_independientes = utils.generar_conjunto_independiente(len(ejemplo) + 1, 300,
+                                                                                               clasificadorRVE.pesos,
+                                                                                               clases)
 ejemplos_dependientes = deepcopy(ejemplos_independientes)
 clases_ejemplos_dependientes = utils.generar_conjunto_dependiente(clases_ejemplos_independientes, clases, 0.3)
 
 # =============================================================================
 # CLASIFICACION DE EJEMPLOS
 # =============================================================================
+
+# =====================================================
+# Perceptrón umbral
+# =====================================================
+clase_clasificada = clasificadorPU.clasifica(ejemplo)
+clasificado = "Clasificador PU ha clasificado a: '{0}'".format(clase_clasificada)
+print(clasificado)
 
 # =====================================================
 # Regresión error cuadrático batch
@@ -107,6 +119,10 @@ print(clasificado)
 # =============================================================================
 # EVALUAMOS EL MODELO
 # =============================================================================
+
+rendimiento = clasificadorPU.evalua(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
+evaluado = "Rendimiento Clasificador PU: {0:.1f}%".format(round(rendimiento * 100, 1))
+print(evaluado)
 
 rendimiento = clasificadorRECB.evalua(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
 evaluado = "Rendimiento Clasificador RECB Prob.: {0:.1f}%".format(round(rendimiento * 100, 1))

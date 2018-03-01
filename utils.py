@@ -166,7 +166,7 @@ def generar_ejemplo_aleatorio(n: int) -> list:
 
 
 """
-Genera un conjunto completo de ejemplos aleatorios linealmente independientes, devuelve como resultado la
+Genera un conjunto completo de ejemplos aleatorios linealmente separables, devuelve como resultado la
 tupla(ejemplos, clases)
 """
 
@@ -183,7 +183,7 @@ def generar_conjunto_independiente(total_atributos: int, total_elementos: int, w
         # Sacamos el resultado de esos pesos
         wx = pesos_por_atributo(w, x)
 
-        # Sacamos la clase a la que pertenece para que sea linealmente independiente
+        # Sacamos la clase a la que pertenece para que sea linealmente separable
         c = clases[umbral(wx)]
 
         total_ejemplos.append(x)
@@ -193,15 +193,15 @@ def generar_conjunto_independiente(total_atributos: int, total_elementos: int, w
 
 
 """
-Genera un conjunto de clases independientes dado un conjunto independiente de clases
+Genera un conjunto de clases inseparables dado un conjunto separable de clases
 """
 
 
-def generar_conjunto_dependiente(clases_independientes: list, clases: list, porcentaje: float):
+def generar_conjunto_dependiente(clases_separables: list, clases: list, porcentaje: float):
 
-    total_clases = len(clases_independientes)
+    total_clases = len(clases_separables)
     total_cogidas = round(total_clases * porcentaje)
-    clases_dependientes = deepcopy(clases_independientes)
+    clases_no_separables = deepcopy(clases_separables)
 
     indices = [i for i in range(0, total_clases)]
     random.shuffle(indices)
@@ -209,7 +209,7 @@ def generar_conjunto_dependiente(clases_independientes: list, clases: list, porc
     indices_cogidos = [indices[i] for i in range(0, total_cogidas)]
 
     for i in indices_cogidos:
-        indice_clase = clases.index(clases_dependientes[i])
-        clases_dependientes[i] = clases[0] if indice_clase == 1 else clases[1]
+        indice_clase = clases.index(clases_no_separables[i])
+        clases_no_separables[i] = clases[0] if indice_clase == 1 else clases[1]
 
-    return clases_dependientes
+    return clases_no_separables

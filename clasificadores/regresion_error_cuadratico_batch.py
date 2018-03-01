@@ -16,7 +16,11 @@ class ClasificadorRECB(Clasificador):
         # Si tenemos pesos iniciales, los cargamos, si no, pesos es None
         self.pesos = utils.recuperar_pesos(self.fichero_de_volcado)
 
-    def entrena(self, entrenamiento, clases_entrenamiento, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None, decrementar_tasa=False):
+    def entrena(self, entrenamiento, clases_entrenamiento, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None,
+                decrementar_tasa=False):
+
+        # Guardamos la tasa de aprendizaje inicial
+        tasa_aprendizaje_inicial = tasa_aprendizaje
 
         # Tenemos que añadir el término independiente a cada conjunto de datos
         entrenamiento = [[1] + elemento for elemento in entrenamiento]
@@ -27,7 +31,7 @@ class ClasificadorRECB(Clasificador):
         else:
             self.pesos = pesos_iniciales
 
-        for _ in range(0, n_epochs):
+        for epoch in range(1, n_epochs + 1):
 
             # Por cada conjunto del ejemplo
             for j, _ in enumerate(entrenamiento):
@@ -39,7 +43,6 @@ class ClasificadorRECB(Clasificador):
 
                     # Por cada conjunto del ejemplo
                     for j1, _ in enumerate(entrenamiento):
-
                         # Comprobamos cual es nuestra clase objetivo y(j)
                         y = self.clases.index(clases_entrenamiento[j1])
 
@@ -50,6 +53,11 @@ class ClasificadorRECB(Clasificador):
 
                     self.pesos[i] = self.pesos[i] + tasa_aprendizaje * sumatorio
 
+            # Si está activada la opción de decrementar la tasa, la decrementamos
+            if decrementar_tasa:
+                tasa_aprendizaje = utils.rate_decay(tasa_aprendizaje_inicial, epoch)
+
+        # Guardamos los pesos para reutilizarlos posteriormente
         utils.guardar_pesos(self.fichero_de_volcado, self.pesos)
 
     def clasifica_prob(self, ejemplo):
@@ -66,7 +74,6 @@ class ClasificadorRECB(Clasificador):
 
         # Por cada dato del conjunto de prueba
         for i, _ in enumerate(conjunto_prueba):
-
             # Sacamos la probabilidad de la clasificación
             probabilidad_clasificada = self.clasifica_prob(conjunto_prueba[i])
 
