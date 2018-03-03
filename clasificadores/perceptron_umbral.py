@@ -25,6 +25,9 @@ class ClasificadorPU(Clasificador):
         # Tenemos que añadir el término independiente a cada conjunto de datos
         entrenamiento = [[1] + elemento for elemento in entrenamiento]
 
+        # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
+        entrenamiento, self.norma = utils.normalizar_si_es_necesario(entrenamiento, self.normalizar, self.norma)
+
         # Numero de epochs (veces que se itera sobre el conjunto completo de datos)
 
         # Rate decay: booleano que indica si la tasa de aprendizaje debe ir
@@ -76,12 +79,18 @@ class ClasificadorPU(Clasificador):
         # Añadimos el término indendiente
         ejemplo = [1] + ejemplo
 
+        # Si se exige normalización, normalizamos
+        ejemplo, self.norma = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.norma)
+
         return self.clases[utils.umbral(utils.pesos_por_atributo(self.pesos, ejemplo))]
 
     def evalua(self, conjunto_prueba, clases_conjunto_prueba):
 
         # Calcula ejemplos correctamente clasificados
         res = 0
+
+        # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
+        conjunto_prueba, self.norma = utils.normalizar_si_es_necesario(conjunto_prueba, self.normalizar, self.norma)
 
         # Por cada dato del conjunto de prueba
         for i, _ in enumerate(conjunto_prueba):

@@ -5,6 +5,7 @@ import math
 import pickle
 import random
 import matplotlib.pyplot as plt
+import numpy as np
 from copy import deepcopy
 
 """
@@ -172,7 +173,6 @@ tupla(ejemplos, clases)
 
 
 def generar_conjunto_independiente(total_atributos: int, total_elementos: int, w: list, clases: list) -> (list, list):
-
     total_ejemplos = []
     total_clases = []
 
@@ -198,7 +198,6 @@ Genera un conjunto de clases inseparables dado un conjunto separable de clases
 
 
 def generar_conjunto_dependiente(clases_separables: list, clases: list, porcentaje: float):
-
     total_clases = len(clases_separables)
     total_cogidas = round(total_clases * porcentaje)
     clases_no_separables = deepcopy(clases_separables)
@@ -213,3 +212,71 @@ def generar_conjunto_dependiente(clases_separables: list, clases: list, porcenta
         clases_no_separables[i] = clases[0] if indice_clase == 1 else clases[1]
 
     return clases_no_separables
+
+
+"""
+Devuelve la norma de los datos dados
+"""
+
+
+def sacar_norma(data) -> float:
+    return np.linalg.norm(data)
+
+
+"""
+Devuelve todos los datos normalizados
+"""
+
+
+def normalizar_datos(datos, norma=None):
+    datos_normalizados = datos.copy()
+
+    if not norma:
+        norma = sacar_norma(datos)
+
+    for i, _ in enumerate(datos):
+        datos_normalizados[i] = normalizar_fila(datos[i], norma)
+
+    return datos_normalizados
+
+
+"""
+Devuelve la fila introducida normalizada
+"""
+
+
+def normalizar_fila(fila, norma=None):
+    if not norma:
+        norma = sacar_norma(fila)
+
+    return [(num / norma) for num in fila]
+
+
+"""
+Devuelve la tupla (datos_normalizados, norma) una matriz de datos dada.
+"""
+
+
+def normalizar_si_es_necesario(datos, normalizar, norma):
+    if normalizar:
+        if not norma:
+            norma = sacar_norma(datos)
+
+        return normalizar_datos(datos, norma), norma
+    else:
+        return datos, norma
+
+
+"""
+Devuelve la tupla (datos_normalizados, norma) para una fila de datos dada.
+"""
+
+
+def normalizar_fila_si_es_necesario(fila, normalizar, norma):
+    if normalizar:
+        if not norma:
+            norma = sacar_norma(fila)
+
+        return normalizar_fila(fila, norma), norma
+    else:
+        return fila, norma
