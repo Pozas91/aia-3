@@ -73,33 +73,3 @@ class ClasificadorPU(Clasificador):
 
         # Guardamos los pesos para reutilizarlos posteriormente
         utils.guardar_pesos(self.fichero_de_volcado, self.pesos)
-
-    def clasifica(self, ejemplo):
-
-        # Añadimos el término indendiente
-        ejemplo = [1] + ejemplo
-
-        # Si se exige normalización, normalizamos
-        ejemplo, self.norma = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.norma)
-
-        return self.clases[utils.umbral(utils.pesos_por_atributo(self.pesos, ejemplo))]
-
-    def evalua(self, conjunto_prueba, clases_conjunto_prueba):
-
-        # Calcula ejemplos correctamente clasificados
-        res = 0
-
-        # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
-        conjunto_prueba, self.norma = utils.normalizar_si_es_necesario(conjunto_prueba, self.normalizar, self.norma)
-
-        # Por cada dato del conjunto de prueba
-        for i, _ in enumerate(conjunto_prueba):
-
-            # Sacamos la clase clasificada
-            clase_clasificada = self.clasifica(conjunto_prueba[i])
-
-            res += clase_clasificada == clases_conjunto_prueba[i]
-
-        rendimiento = res / len(conjunto_prueba)
-
-        return rendimiento

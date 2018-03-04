@@ -44,7 +44,7 @@ print(clasificado)
 # EVALUAMOS EL MODELO
 # =============================================================================
 
-rendimiento = clasificadorRVE.evalua(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
+rendimiento = clasificadorRVE.evalua_prob(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
 evaluado = "Rendimiento Clasificador RVE Prob.: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 

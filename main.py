@@ -124,19 +124,19 @@ rendimiento = clasificadorPU.evalua(conjunto_prueba=test, clases_conjunto_prueba
 evaluado = "Rendimiento Clasificador PU: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
-rendimiento = clasificadorRECB.evalua(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
+rendimiento = clasificadorRECB.evalua_prob(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
 evaluado = "Rendimiento Clasificador RECB Prob.: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
-rendimiento = clasificadorRECE.evalua(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
+rendimiento = clasificadorRECE.evalua_prob(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
 evaluado = "Rendimiento Clasificador RECE Prob.: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
-rendimiento = clasificadorRVB.evalua(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
+rendimiento = clasificadorRVB.evalua_prob(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
 evaluado = "Rendimiento Clasificador RVB Prob.: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
-rendimiento = clasificadorRVE.evalua(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
+rendimiento = clasificadorRVE.evalua_prob(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
 evaluado = "Rendimiento Clasificador RVE Prob.: {0:.1f}%".format(round(rendimiento * 100, 1))
 print(evaluado)
 
