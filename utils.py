@@ -7,6 +7,8 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 from copy import deepcopy
+import glob
+import img2pdf
 
 """
 Función utilizada para capturar el momento en el que comienza todo.
@@ -123,6 +125,7 @@ def generar_grafico(errores, title):
     plt.title(title)
     plt.xlabel('Epochs')
     plt.ylabel('Porcentaje de errores')
+    plt.savefig('graficos/images/' + title + '.jpg') 
     plt.show()
 
 
@@ -280,3 +283,19 @@ def normalizar_fila_si_es_necesario(fila, normalizar, norma):
         return normalizar_fila(fila, norma), norma
     else:
         return fila, norma
+
+
+"""
+Función utilizada para leer todas las imágenes en formato png y exportar a un único PDF
+"""
+
+
+def convierte_imagenes_PDF():
+    filenames = [glob.glob("graficos/images/*.jpg")]
+    
+    with open("graficos/graficos.pdf", "wb") as f:
+        for filename in filenames:
+            f.write(img2pdf.convert(filename))
+    
+    
+        
