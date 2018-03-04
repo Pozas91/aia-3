@@ -3,6 +3,7 @@
 from clasificadores.clasificador import Clasificador
 import random
 import utils
+import math
 
 
 class ClasificadorRVE(Clasificador):
@@ -34,7 +35,13 @@ class ClasificadorRVE(Clasificador):
         else:
             self.pesos = pesos_iniciales
 
+        # Lista de los errores
+        errores = []
+
         for epoch in range(1, n_epochs + 1):
+
+            # Inicializamos la variable error
+            error = 0.0
 
             # Si está activada la opción de decrementar la tasa, la decrementamos
             if decrementar_tasa:
@@ -45,6 +52,7 @@ class ClasificadorRVE(Clasificador):
 
                 # Por cada atributo del ejemplo
                 for i, _ in enumerate(entrenamiento[j]):
+
                     # Comprobamos cual es nuestra clase objetivo y(j)
                     y = self.clases.index(clases_entrenamiento[j])
 
@@ -58,6 +66,15 @@ class ClasificadorRVE(Clasificador):
                     xi = entrenamiento[j][i]
 
                     self.pesos[i] = self.pesos[i] + tasa_aprendizaje * (y - sigma_z) * xi
+
+                    # Sumatorio cuadrático medio
+                    error += math.pow((y - sigma_z), 2)
+
+            # Guardamos el error en la lista
+            errores.append(error)
+
+        # Generamos el gráfico
+        utils.generar_grafico(errores, 'Regresión verosimilitud estocástica')
 
         # Guardamos los pesos para reutilizarlos posteriormente
         utils.guardar_pesos(self.fichero_de_volcado, self.pesos)
