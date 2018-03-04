@@ -22,7 +22,7 @@ start_time = utils.comienzo_tiempo_ejecucion()
 clasificadorPU = ClasificadorPU(clases)
 clasificadorRECB = ClasificadorRECB(clases)
 clasificadorRECE = ClasificadorRECE(clases)
-clasificadorRVB = ClasificadorRVB(clases)
+clasificadorRVB = ClasificadorRVB(clases, norm=True)
 clasificadorRVE = ClasificadorRVE(clases)
 
 # =============================================================================

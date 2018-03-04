@@ -58,8 +58,13 @@ Devuelve la función sigma en z.
 
 
 def sigma(z: float) -> float:
-    return 1 / (1 + math.exp(z))
-
+# =============================================================================
+#     if z < 0:
+#         return 1 - 1/(1 + math.exp(z))
+#     else:
+#         return 1/(1 + math.exp(-z))
+# =============================================================================
+    return 1/(1 + math.exp(z))
 
 """
 Devuelve la derivida de sigma en z.
