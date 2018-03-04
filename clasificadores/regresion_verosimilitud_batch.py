@@ -60,9 +60,6 @@ class ClasificadorRVB(Clasificador):
                         # Sacamos wx(j)
                         z = utils.pesos_por_atributo(self.pesos, entrenamiento[j])
 
-                        if z <= -700:
-                            print(z)
-
                         # Sacamos sigma de wx(j)
                         sigma_z = utils.sigma(-z)
 
