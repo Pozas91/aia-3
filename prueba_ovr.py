@@ -2,8 +2,8 @@
 
 import utils
 from clasificadores.one_vs_rest import ClasificadorOVR
-from datasets.votos import clases, entrenamiento, clases_entrenamiento, validacion, clases_validacion, test, \
-    clases_test, ejemplo, ejemplo_clase
+from datasets.digitdata import classes, training_data, training_classes, validation_data, validation_classes, test_classes, \
+    test_data
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
@@ -20,7 +20,7 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # RVE -> Regresión verosimilitud estocastica
 # 
 # =============================================================================
-clasificadorOVR = ClasificadorOVR.entrena(clases, entrenamiento, clases_entrenamiento, ejemplo, 'PU', 100)
+clasificadorOVR = ClasificadorOVR.entrena(classes, training_data, training_classes, test_data, test_classes, 'RECE', 10)
 
 # =============================================================================
 # FINAL - TIEMPOS DE EJECUCIÓN

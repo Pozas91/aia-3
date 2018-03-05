@@ -307,3 +307,19 @@ def random_indices(n: int) -> list:
     indices = [i for i in range(n)]
     random.shuffle(indices)
     return indices
+
+
+"""
+Genero una lista de ceros y uno en función de la clase seleccionada.
+Esto se utiliza para enfrentar una clase con el resto.
+"""
+
+
+def genera_lista_one_vs_rest(clases, ejemplo_clases):
+    aux_clases = []
+    for clase in clases:
+        if clase == ejemplo_clases:
+            aux_clases.append(1)
+        else:
+            aux_clases.append(0)
+    return aux_clases

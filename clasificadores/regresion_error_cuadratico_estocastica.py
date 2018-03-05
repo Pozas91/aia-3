@@ -53,6 +53,8 @@ class ClasificadorRECE(Clasificador):
                 for j, _ in enumerate(entrenamiento[i]):
 
                     # Comprobamos cual es nuestra clase objetivo y(j)
+                    print(self.clases)
+                    print(clases_entrenamiento[i])
                     y = self.clases.index(clases_entrenamiento[i])
 
                     # Sacamos el vector de pesos por x(j)
