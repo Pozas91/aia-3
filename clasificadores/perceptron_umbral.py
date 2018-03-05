@@ -11,7 +11,7 @@ class ClasificadorPU(Clasificador):
         Clasificador.__init__(self, clases, norm)
 
         # Ruta del fichero donde haremos el volcado de información
-        self.fichero_de_volcado = "datasets/clasificador_pu"
+        self.fichero_de_volcado = "datasets/pesos/pu"
 
         # Si tenemos pesos iniciales, los cargamos, si no, pesos es None
         self.pesos = utils.recuperar_pesos(self.fichero_de_volcado)

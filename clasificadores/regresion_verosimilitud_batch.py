@@ -12,7 +12,7 @@ class ClasificadorRVB(Clasificador):
         Clasificador.__init__(self, clases, norm)
 
         # Ruta del fichero donde haremos el volcado de información
-        self.fichero_de_volcado = "datasets/clasificador_rvb"
+        self.fichero_de_volcado = "datasets/pesos/rvb"
 
         # Si tenemos pesos iniciales, los cargamos, si no, pesos es None
         self.pesos = utils.recuperar_pesos(self.fichero_de_volcado)
@@ -38,40 +38,42 @@ class ClasificadorRVB(Clasificador):
         # Lista de los errores
         errores = []
 
+        # para cada ejemplo del conjunto dividir restarle su media y dividirle la desviación tipica
+
         for epoch in range(1, n_epochs + 1):
 
             # Inicializamos la variable error
             error = 0.0
 
-            # Por cada conjunto del ejemplo
-            for j, _ in enumerate(entrenamiento):
+            # Por cada atributo del ejemplo
+            for i, _ in enumerate(entrenamiento[0]):
 
-                # Por cada atributo del ejemplo
-                for i, _ in enumerate(entrenamiento[j]):
+                sumatorio = 0.0
 
-                    sumatorio = 0.0
+                # Por cada conjunto del ejemplo
+                for j, _ in enumerate(entrenamiento):
 
-                    # Por cada conjunto del ejemplo
-                    for j1, _ in enumerate(entrenamiento):
+                    # Comprobamos cual es nuestra clase objetivo y(j)
+                    y = self.clases.index(clases_entrenamiento[j])
 
-                        # Comprobamos cual es nuestra clase objetivo y(j)
-                        y = self.clases.index(clases_entrenamiento[j1])
+                    # Sacamos wx(j)
+                    z = utils.pesos_por_atributo(self.pesos, entrenamiento[j])
 
-                        # Sacamos wx(j)
-                        z = utils.pesos_por_atributo(self.pesos, entrenamiento[j])
+                    if z < -700:
+                        print(z)
 
-                        # Sacamos sigma de wx(j)
-                        sigma_z = utils.sigma(-z)
+                    # Sacamos sigma de wx(j)
+                    sigma_z = utils.sigma(-z)
 
-                        # Sacamos Xi(j)
-                        xi = entrenamiento[j1][i]
+                    # Sacamos Xi(j)
+                    xi = entrenamiento[j][i]
 
-                        sumatorio += (y - sigma_z) * xi
+                    sumatorio += (y - sigma_z) * xi
 
-                        # Sumatorio cuadrático medio
-                        error += math.pow((y - sigma_z), 2)
+                    # Sumatorio cuadrático medio
+                    error += math.pow((y - sigma_z), 2)
 
-                    self.pesos[i] = self.pesos[i] + tasa_aprendizaje * sumatorio
+                self.pesos[i] = self.pesos[i] + tasa_aprendizaje * sumatorio
 
             # Guardamos el error en la lista
             errores.append(error)

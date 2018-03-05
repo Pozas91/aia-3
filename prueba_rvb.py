@@ -14,7 +14,7 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # INICIALIZANDO CLASIFICADOR
 # =============================================================================
 
-clasificadorRVB = ClasificadorRVB(clases, norm=True)
+clasificadorRVB = ClasificadorRVB(clases, norm=False)
 
 # =============================================================================
 # ENTRENAMIENTO CLASIFICADORES
