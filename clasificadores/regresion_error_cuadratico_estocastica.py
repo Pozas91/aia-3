@@ -28,7 +28,7 @@ class ClasificadorRECE(Clasificador):
 
         # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
         entrenamiento, self.norma = utils.normalizar_si_es_necesario(entrenamiento, self.normalizar, self.norma)
-        
+
         # Si los pesos iniciales son None, entonces los iniciaremos aleatoriamente con un número de entre -1 y 1
         if not pesos_iniciales:
             self.pesos = [random.uniform(-1, 1) for i in range(0, len(entrenamiento[0]))]
@@ -43,21 +43,28 @@ class ClasificadorRECE(Clasificador):
             # Inicializamos la variable error
             error = 0.0
 
+            # Ordena aleatoriamente los indices
+            random_indices = utils.random_indices(len(entrenamiento))
+
             # Por cada conjunto del ejemplo
-            for j, _ in enumerate(entrenamiento):
+            for i in random_indices:
 
                 # Por cada atributo del ejemplo
-                for i, _ in enumerate(entrenamiento[j]):
+                for j, _ in enumerate(entrenamiento[i]):
+
                     # Comprobamos cual es nuestra clase objetivo y(j)
-                    y = self.clases.index(clases_entrenamiento[j])
+                    y = self.clases.index(clases_entrenamiento[i])
+
+                    # Sacamos el vector de pesos por x(j)
+                    z = utils.pesos_por_atributo(self.pesos, entrenamiento[i])
 
                     # Calculamos la o(j) mediante la función de sigma
-                    o = utils.sigma(-utils.pesos_por_atributo(self.pesos, entrenamiento[j]))
+                    o = utils.sigmoide(-z)
 
                     # Sumatorio cuadrático medio
                     error += math.pow((y - o), 2)
 
-                    self.pesos[i] = self.pesos[i] + tasa_aprendizaje * entrenamiento[j][i] * (y - o) * o * (1 - o)
+                    self.pesos[j] = self.pesos[j] + tasa_aprendizaje * entrenamiento[i][j] * (y - o) * o * (1 - o)
 
             # Si está activada la opción de decrementar la tasa, la decrementamos
             if decrementar_tasa:

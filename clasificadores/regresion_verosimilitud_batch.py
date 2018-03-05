@@ -59,19 +59,16 @@ class ClasificadorRVB(Clasificador):
                     # Sacamos wx(j)
                     z = utils.pesos_por_atributo(self.pesos, entrenamiento[j])
 
-                    if z < -700:
-                        print(z)
-
                     # Sacamos sigma de wx(j)
-                    sigma_z = utils.sigma(-z)
+                    sigma = utils.sigmoide(-z)
 
                     # Sacamos Xi(j)
                     xi = entrenamiento[j][i]
 
-                    sumatorio += (y - sigma_z) * xi
+                    sumatorio += (y - sigma) * xi
 
                     # Sumatorio cuadrático medio
-                    error += math.pow((y - sigma_z), 2)
+                    error += math.pow((y - sigma), 2)
 
                 self.pesos[i] = self.pesos[i] + tasa_aprendizaje * sumatorio
 

@@ -43,32 +43,34 @@ class ClasificadorRVE(Clasificador):
             # Inicializamos la variable error
             error = 0.0
 
+            # Ordena aleatoriamente los indices
+            random_indices = utils.random_indices(len(entrenamiento))
+
+            # Por cada conjunto del ejemplo
+            for i in random_indices:
+
+                # Por cada atributo del ejemplo
+                for j, _ in enumerate(entrenamiento[i]):
+                    # Comprobamos cual es nuestra clase objetivo y(j)
+                    y = self.clases.index(clases_entrenamiento[i])
+
+                    # Calculamos w*x también conocido como z
+                    z = utils.pesos_por_atributo(self.pesos, entrenamiento[i])
+
+                    # Sigma de z
+                    sigma = utils.sigmoide(-z)
+
+                    # Calculamos xi
+                    xi = entrenamiento[i][j]
+
+                    self.pesos[j] = self.pesos[j] + tasa_aprendizaje * (y - sigma) * xi
+
+                    # Sumatorio cuadrático medio
+                    error += math.pow((y - sigma), 2)
+
             # Si está activada la opción de decrementar la tasa, la decrementamos
             if decrementar_tasa:
                 tasa_aprendizaje = utils.rate_decay(tasa_aprendizaje_inicial, epoch)
-
-            # Por cada conjunto del ejemplo
-            for j, _ in enumerate(entrenamiento):
-
-                # Por cada atributo del ejemplo
-                for i, _ in enumerate(entrenamiento[j]):
-
-                    # Comprobamos cual es nuestra clase objetivo y(j)
-                    y = self.clases.index(clases_entrenamiento[j])
-
-                    # Calculamos w*x también conocido como z
-                    z = utils.pesos_por_atributo(self.pesos, entrenamiento[j])
-
-                    # Sigma de z
-                    sigma_z = utils.sigma(-z)
-
-                    # Calculamos xi
-                    xi = entrenamiento[j][i]
-
-                    self.pesos[i] = self.pesos[i] + tasa_aprendizaje * (y - sigma_z) * xi
-
-                    # Sumatorio cuadrático medio
-                    error += math.pow((y - sigma_z), 2)
 
             # Guardamos el error en la lista
             errores.append(error)

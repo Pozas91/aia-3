@@ -54,8 +54,11 @@ class ClasificadorRECB(Clasificador):
                     # Comprobamos cual es nuestra clase objetivo y(j)
                     y = self.clases.index(clases_entrenamiento[j])
 
+                    # Sacamos el vector de pesos por x(j)
+                    z = utils.pesos_por_atributo(self.pesos, entrenamiento[j])
+
                     # Calculamos la o(j) mediante la función de sigma
-                    o = utils.sigma(-utils.pesos_por_atributo(self.pesos, entrenamiento[j]))
+                    o = utils.sigmoide(-z)
 
                     sumatorio += entrenamiento[j][i] * (y - o) * o * (1 - o)
 

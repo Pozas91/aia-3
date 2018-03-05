@@ -57,14 +57,9 @@ Devuelve la función sigma en z.
 """
 
 
-def sigma(z: float) -> float:
-# =============================================================================
-#     if z < 0:
-#         return 1 - 1/(1 + math.exp(z))
-#     else:
-#         return 1/(1 + math.exp(-z))
-# =============================================================================
-    return 1/(1 + math.exp(z))
+def sigmoide(z: float) -> float:
+    return 1 / (1 + math.exp(z))
+
 
 """
 Devuelve la derivida de sigma en z.
@@ -72,7 +67,7 @@ Devuelve la derivida de sigma en z.
 
 
 def derivada_sigma(z: float) -> float:
-    return sigma(z) * (1 - sigma(z))
+    return sigmoide(z) * (1 - sigmoide(z))
 
 
 """
@@ -130,7 +125,7 @@ def generar_grafico(errores, title):
     plt.title(title)
     plt.xlabel('Epochs')
     plt.ylabel('Porcentaje de errores')
-    plt.savefig('graficos/images/' + title + '.jpg') 
+    plt.savefig('graficos/images/' + title + '.jpg')
     plt.show()
 
 
@@ -297,10 +292,18 @@ Función utilizada para leer todas las imágenes en formato png y exportar a un 
 
 def convierte_imagenes_PDF():
     filenames = [glob.glob("graficos/images/*.jpg")]
-    
+
     with open("graficos/graficos.pdf", "wb") as f:
         for filename in filenames:
             f.write(img2pdf.convert(filename))
-    
-    
-        
+
+
+"""
+Devuelve la lista de los índices aleatoria
+"""
+
+
+def random_indices(n: int) -> list:
+    indices = [i for i in range(n)]
+    random.shuffle(indices)
+    return indices

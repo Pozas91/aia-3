@@ -42,7 +42,7 @@ class Clasificador:
         # Si se exige normalización, normalizamos
         ejemplo, self.norma = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.norma)
 
-        return utils.sigma(-utils.pesos_por_atributo(self.pesos, ejemplo))
+        return utils.sigmoide(-utils.pesos_por_atributo(self.pesos, ejemplo))
 
     """
     Este método evalua el rendimiento del clasificador basado en la función umbral

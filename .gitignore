@@ -156,3 +156,7 @@ fabric.properties
 
 # Ignore pesos folder
 datasets/pesos/*
+
+# Ignore gráficos folder
+graficos/graficos.pdf
+graficos/images/*

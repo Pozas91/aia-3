@@ -42,34 +42,39 @@ class ClasificadorPU(Clasificador):
         else:
             self.pesos = pesos_iniciales
 
-        array_errores = []
+        errores = []
 
         for epoch in range(1, n_epochs + 1):
 
             # o = umbral (w * x)
             # wi <- wi + tasa de aprendizaje * xi * (y - o)
-            errores = 0
+            error = 0
 
-            for j, _ in enumerate(entrenamiento):
-                o = utils.umbral(utils.pesos_por_atributo(self.pesos, entrenamiento[j]))
-                y = utils.convierte_republicano_democrata(clases_entrenamiento[j])
+            # Ordena aleatoriamente los indices
+            random_indices = utils.random_indices(len(entrenamiento))
+
+            for i in random_indices:
+
+                o = utils.umbral(utils.pesos_por_atributo(self.pesos, entrenamiento[i]))
+                y = utils.convierte_republicano_democrata(clases_entrenamiento[i])
                 actualizacion = tasa_aprendizaje * (y - o)
 
-                for wi, _ in enumerate(self.pesos):
+                for j, _ in enumerate(entrenamiento[i]):
 
-                    if y != o:
-                        self.pesos[wi] += entrenamiento[j][wi] * actualizacion
+                    # Actualizamos el pesos
+                    self.pesos[j] += entrenamiento[i][j] * actualizacion
 
-                    errores += int(actualizacion != 0.0)
+                    # Almacenamos el error
+                    error += int(actualizacion != 0.0)
 
-            array_errores.append(errores)
+            errores.append(error)
 
             # Si está activada la opción de decrementar la tasa, la decrementamos
             if decrementar_tasa:
                 tasa_aprendizaje = utils.rate_decay(tasa_aprendizaje_inicial, epoch)
 
         # Generamos el gráfico
-        utils.generar_grafico(array_errores, 'Perceptrón Umbral')
+        utils.generar_grafico(errores, 'Perceptrón Umbral')
 
         # Guardamos los pesos para reutilizarlos posteriormente
         utils.guardar_pesos(self.fichero_de_volcado, self.pesos)
