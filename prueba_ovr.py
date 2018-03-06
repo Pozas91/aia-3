@@ -23,7 +23,8 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # =============================================================================
 clasificadorPU = ClasificadorPU(None)
 clasificadorOVR = ClasificadorOVR(classes, clasificadorPU)
-clasificadorOVR.entrena(training_data, training_classes, 10)
+clasificadorOVR.entrena(training_data, training_classes, 1)
+clasificadorOVR.clasifica(test_data[0])
 
 # =============================================================================
 # FINAL - TIEMPOS DE EJECUCIÓN
