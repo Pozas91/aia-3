@@ -141,6 +141,11 @@ evaluado = "Rendimiento Clasificador RVE Prob.: {0:.1f}%".format(round(rendimien
 print(evaluado)
 
 # =============================================================================
+# EVALUAMOS EL MODELO
+# =============================================================================
+utils.convierte_imagenes_PDF()
+
+# =============================================================================
 # FINAL - TIEMPOS DE EJECUCIÓN
 # =============================================================================
 utils.tiempo_ejecucion_obtenido(start_time)

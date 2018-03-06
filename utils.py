@@ -7,6 +7,8 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 from copy import deepcopy
+import glob
+import img2pdf
 
 """
 Función utilizada para capturar el momento en el que comienza todo.
@@ -55,7 +57,7 @@ Devuelve la función sigma en z.
 """
 
 
-def sigma(z: float) -> float:
+def sigmoide(z: float) -> float:
     return 1 / (1 + math.exp(z))
 
 
@@ -65,7 +67,7 @@ Devuelve la derivida de sigma en z.
 
 
 def derivada_sigma(z: float) -> float:
-    return sigma(z) * (1 - sigma(z))
+    return sigmoide(z) * (1 - sigmoide(z))
 
 
 """
@@ -123,6 +125,7 @@ def generar_grafico(errores, title):
     plt.title(title)
     plt.xlabel('Epochs')
     plt.ylabel('Porcentaje de errores')
+    plt.savefig('graficos/images/' + title + '.jpg')
     plt.show()
 
 
@@ -280,3 +283,43 @@ def normalizar_fila_si_es_necesario(fila, normalizar, norma):
         return normalizar_fila(fila, norma), norma
     else:
         return fila, norma
+
+
+"""
+Función utilizada para leer todas las imágenes en formato png y exportar a un único PDF
+"""
+
+
+def convierte_imagenes_PDF():
+    filenames = [glob.glob("graficos/images/*.jpg")]
+
+    with open("graficos/graficos.pdf", "wb") as f:
+        for filename in filenames:
+            f.write(img2pdf.convert(filename))
+
+
+"""
+Devuelve la lista de los índices aleatoria
+"""
+
+
+def random_indices(n: int) -> list:
+    indices = [i for i in range(n)]
+    random.shuffle(indices)
+    return indices
+
+
+"""
+Genero una lista de ceros y uno en función de la clase seleccionada.
+Esto se utiliza para enfrentar una clase con el resto.
+"""
+
+
+def genera_lista_one_vs_rest(clases, ejemplo_clases):
+    aux_clases = []
+    for clase in clases:
+        if clase == ejemplo_clases:
+            aux_clases.append('1')
+        else:
+            aux_clases.append('0')
+    return aux_clases
