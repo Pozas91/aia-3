@@ -41,8 +41,9 @@ class ClasificadorRVE(Clasificador):
 
         for epoch in range(1, n_epochs + 1):
 
-            # Inicializamos la variable error
-            error = 0.0
+            # Inicializamos las variables para calcular la tasa de error
+            error_ejemplo_y_uno = 0.0
+            error_ejemplo_y_cero = 0.0
 
             # Ordena aleatoriamente los indices
             random_indices = utils.random_indices(len(entrenamiento))
@@ -66,14 +67,21 @@ class ClasificadorRVE(Clasificador):
 
                     self.pesos[j] = self.pesos[j] + tasa_aprendizaje * (y - sigma) * xi
 
-                    # Sumatorio cuadrático medio
-                    error += math.pow((y - sigma), 2)
+                    # Tasa error
+                    # Notación: D+ son los ejemplos (x,y) de D con y = 1; D- son aquellos con y = 0
+                    # Primer sumatorio corresponde a D+ y el segundo sumatorio a D-
+                    # LL(w) = - Sumatorio (log (1 + e^-w*x)) - Sumatorio (log (1 + e^w*x))
+                    if y == 1:
+                        error_ejemplo_y_uno += math.log1p( math.exp( (-self.pesos[j]*xi) ) )
+                    elif y == 0:
+                        error_ejemplo_y_cero += math.log1p( math.exp( (self.pesos[j]*xi) ) )
 
             # Si está activada la opción de decrementar la tasa, la decrementamos
             if decrementar_tasa:
                 tasa_aprendizaje = utils.rate_decay(tasa_aprendizaje_inicial, epoch)
 
             # Guardamos el error en la lista
+            error = - error_ejemplo_y_uno - error_ejemplo_y_cero
             errores.append(error)
 
         # Generamos el gráfico

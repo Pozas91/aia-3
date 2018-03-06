@@ -43,8 +43,9 @@ class ClasificadorRVB(Clasificador):
 
         for epoch in range(1, n_epochs + 1):
 
-            # Inicializamos la variable error
-            error = 0.0
+            # Inicializamos las variables para calcular la tasa de error
+            error_ejemplo_y_uno = 0.0
+            error_ejemplo_y_cero = 0.0
 
             # Por cada atributo del ejemplo
             for i, _ in enumerate(entrenamiento[0]):
@@ -67,13 +68,20 @@ class ClasificadorRVB(Clasificador):
                     xi = entrenamiento[j][i]
 
                     sumatorio += (y - sigma) * xi
-
-                    # Sumatorio cuadrático medio
-                    error += math.pow((y - sigma), 2)
+                    
+                    # Tasa error
+                    # Notación: D+ son los ejemplos (x,y) de D con y = 1; D- son aquellos con y = 0
+                    # Primer sumatorio corresponde a D+ y el segundo sumatorio a D-
+                    # LL(w) = - Sumatorio (log (1 + e^-w*x)) - Sumatorio (log (1 + e^w*x))
+                    if y == 1:
+                        error_ejemplo_y_uno += math.log1p( math.exp( (-self.pesos[i]*xi) ) )
+                    elif y == 0:
+                        error_ejemplo_y_cero += math.log1p( math.exp( (self.pesos[i]*xi) ) )
 
                 self.pesos[i] = self.pesos[i] + tasa_aprendizaje * sumatorio
 
             # Guardamos el error en la lista
+            error = - error_ejemplo_y_uno - error_ejemplo_y_cero
             errores.append(error)
 
             # Si está activada la opción de decrementar la tasa, la decrementamos
