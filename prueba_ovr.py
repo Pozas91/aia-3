@@ -2,6 +2,7 @@
 
 import utils
 from clasificadores.one_vs_rest import ClasificadorOVR
+from clasificadores.perceptron_umbral import ClasificadorPU
 from datasets.digitdata import classes, training_data, training_classes, validation_data, validation_classes, test_classes, \
     test_data
 
@@ -20,7 +21,9 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # RVE -> Regresión verosimilitud estocastica
 # 
 # =============================================================================
-clasificadorOVR = ClasificadorOVR.entrena(classes, training_data, training_classes, test_data, test_classes, 'PU', 10)
+clasificadorPU = ClasificadorPU(None)
+clasificadorOVR = ClasificadorOVR(classes, clasificadorPU)
+clasificadorOVR.entrena(training_data, training_classes, 10)
 
 # =============================================================================
 # FINAL - TIEMPOS DE EJECUCIÓN
