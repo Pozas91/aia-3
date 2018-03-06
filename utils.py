@@ -319,7 +319,7 @@ def genera_lista_one_vs_rest(clases, ejemplo_clases):
     aux_clases = []
     for clase in clases:
         if clase == ejemplo_clases:
-            aux_clases.append(1)
+            aux_clases.append('1')
         else:
-            aux_clases.append(0)
+            aux_clases.append('0')
     return aux_clases

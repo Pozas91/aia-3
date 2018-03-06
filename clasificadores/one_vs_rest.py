@@ -30,12 +30,13 @@ class ClasificadorOVR():
         indice_aleatorio = random.randrange(len(ejemplo))
         ejemplo = ejemplo[indice_aleatorio]
         ejemplo_clases = ejemplo_clases[indice_aleatorio]
-        aux_clases = utils.genera_lista_one_vs_rest(clases, ejemplo_clases)
+        #aux_clases = utils.genera_lista_one_vs_rest(clases, ejemplo_clases)
         
-        #for clase in clases:
-            #aux_clases = utils.genera_lista_one_vs_rest(clases, clase)
-            
-        for clase in clases:    
+        for clase in clases:
+            aux_clases = utils.genera_lista_one_vs_rest(clases, clase)
+            print("Clases: {0}".format(clases))
+            print("Aux clases: {0}".format(aux_clases))
+              
             if clasificador == 'PU':
                 
                 clasificadorPU = ClasificadorPU(aux_clases)
