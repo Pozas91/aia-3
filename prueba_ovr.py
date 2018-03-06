@@ -20,7 +20,7 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # RVE -> Regresión verosimilitud estocastica
 # 
 # =============================================================================
-clasificadorOVR = ClasificadorOVR.entrena(classes, training_data, training_classes, test_data, test_classes, 'RECE', 10)
+clasificadorOVR = ClasificadorOVR.entrena(classes, training_data, training_classes, test_data, test_classes, 'PU', 10)
 
 # =============================================================================
 # FINAL - TIEMPOS DE EJECUCIÓN
