@@ -9,8 +9,9 @@ class Clasificador:
         self.clases = clases
         self.normalizar = normalizar
         self.fichero_de_volcado = None
-        self.norma = 0.0
         self.pesos = []
+        self.norm_medias = []
+        self.norm_desviaciones_tipicas = []
 
     def entrena(self, entrenamiento, clases_entrenamiento, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None,
                 decrementar_tasa=False):
@@ -26,7 +27,7 @@ class Clasificador:
         ejemplo = [1] + ejemplo
 
         # Si se exige normalización, normalizamos
-        ejemplo, self.norma = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.norma)
+        ejemplo, media, desviacion_tipica = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar)
 
         return self.clases[utils.umbral(utils.pesos_por_atributo(self.pesos, ejemplo))]
 
@@ -40,7 +41,7 @@ class Clasificador:
         ejemplo = [1] + ejemplo
 
         # Si se exige normalización, normalizamos
-        ejemplo, self.norma = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.norma)
+        ejemplo, media, desviacion_tipica = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar)
 
         return utils.sigmoide(-utils.pesos_por_atributo(self.pesos, ejemplo))
 
@@ -52,9 +53,6 @@ class Clasificador:
 
         # Calcula ejemplos correctamente clasificados
         res = 0
-
-        # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
-        conjunto_prueba, self.norma = utils.normalizar_si_es_necesario(conjunto_prueba, self.normalizar, self.norma)
 
         # Por cada dato del conjunto de prueba
         for i, _ in enumerate(conjunto_prueba):
@@ -76,9 +74,6 @@ class Clasificador:
         # Calcula ejemplos correctamente clasificados
         res = 0
 
-        # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
-        conjunto_prueba, self.norma = utils.normalizar_si_es_necesario(conjunto_prueba, self.normalizar, self.norma)
-
         # Por cada dato del conjunto de prueba
         for i, _ in enumerate(conjunto_prueba):
             # Sacamos la probabilidad de la clasificación
@@ -93,5 +88,8 @@ class Clasificador:
 
         return rendimiento
 
+    """
+    Imprime el clasificador
+    """
     def imprime(self):
         return self.pesos

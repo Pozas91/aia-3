@@ -218,41 +218,16 @@ def generar_conjunto_dependiente(clases_separables: list, clases: list, porcenta
 
 
 """
-Devuelve la norma de los datos dados
-"""
-
-
-def sacar_norma(data) -> float:
-    return np.linalg.norm(data)
-
-
-"""
-Devuelve todos los datos normalizados
-"""
-
-
-def normalizar_datos(datos, norma=None):
-    datos_normalizados = datos.copy()
-
-    if not norma:
-        norma = sacar_norma(datos)
-
-    for i, _ in enumerate(datos):
-        datos_normalizados[i] = normalizar_fila(datos[i], norma)
-
-    return datos_normalizados
-
-
-"""
 Devuelve la fila introducida normalizada
 """
 
 
-def normalizar_fila(fila, norma=None):
-    if not norma:
-        norma = sacar_norma(fila)
-
-    return [(num / norma) for num in fila]
+def normalizar_fila(fila: list) -> (list, float, float):
+    media = np.average(fila)
+    std = np.std(fila)
+    fila = np.subtract(fila, media)
+    fila = np.divide(fila, std)
+    return fila, media, std
 
 
 """
@@ -260,14 +235,19 @@ Devuelve la tupla (datos_normalizados, norma) una matriz de datos dada.
 """
 
 
-def normalizar_si_es_necesario(datos, normalizar, norma):
-    if normalizar:
-        if not norma:
-            norma = sacar_norma(datos)
+def normalizar_si_es_necesario(datos, normalizar: bool):
+    medias = None
+    desviaciones_tipicas = None
 
-        return normalizar_datos(datos, norma), norma
-    else:
-        return datos, norma
+    if normalizar:
+
+        medias = [None for _ in range(len(datos))]
+        desviaciones_tipicas = [None for _ in range(len(datos))]
+
+        for i, _ in enumerate(datos):
+            datos[i], medias[i], desviaciones_tipicas[i] = normalizar_fila(datos[i])
+
+    return datos, medias, desviaciones_tipicas
 
 
 """
@@ -275,14 +255,14 @@ Devuelve la tupla (datos_normalizados, norma) para una fila de datos dada.
 """
 
 
-def normalizar_fila_si_es_necesario(fila, normalizar, norma):
-    if normalizar:
-        if not norma:
-            norma = sacar_norma(fila)
+def normalizar_fila_si_es_necesario(fila, normalizar: bool):
+    media = None
+    desviacion_tipica = None
 
-        return normalizar_fila(fila, norma), norma
-    else:
-        return fila, norma
+    if normalizar:
+        fila, media, desviacion_tipica = normalizar_fila(fila)
+
+    return fila, media, desviacion_tipica
 
 
 """

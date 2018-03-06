@@ -26,7 +26,8 @@ class ClasificadorPU(Clasificador):
         entrenamiento = [[1] + elemento for elemento in entrenamiento]
 
         # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
-        entrenamiento, self.norma = utils.normalizar_si_es_necesario(entrenamiento, self.normalizar, self.norma)
+        entrenamiento, self.norm_medias, self.norm_desviaciones_tipicas = utils.normalizar_si_es_necesario(
+            entrenamiento, self.normalizar)
 
         # Numero de epochs (veces que se itera sobre el conjunto completo de datos)
 
@@ -60,7 +61,6 @@ class ClasificadorPU(Clasificador):
                 actualizacion = tasa_aprendizaje * (y - o)
 
                 for j, _ in enumerate(entrenamiento[i]):
-
                     # Actualizamos el pesos
                     self.pesos[j] += entrenamiento[i][j] * actualizacion
 
