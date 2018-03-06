@@ -256,6 +256,7 @@ Devuelve la tupla (datos_normalizados, norma) para una fila de datos dada.
 
 
 def normalizar_fila_si_es_necesario(fila, normalizar: bool):
+    # Se normaliza por la columna, no por la fila, por eso es necesario guardar la media y la std de la columna.
     media = None
     desviacion_tipica = None
 
