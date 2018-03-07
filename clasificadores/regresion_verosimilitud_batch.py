@@ -27,8 +27,7 @@ class ClasificadorRVB(Clasificador):
         entrenamiento = [[1] + elemento for elemento in entrenamiento]
 
         # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
-        entrenamiento, self.norm_medias, self.norm_desviaciones_tipicas = utils.normalizar_si_es_necesario(
-            entrenamiento, self.normalizar)
+        entrenamiento, self.means, self.std = utils.normalizar_si_es_necesario(entrenamiento, self.normalizar)
 
         # Si los pesos iniciales son None, entonces los iniciaremos aleatoriamente con un número de entre -1 y 1
         if not pesos_iniciales:
@@ -68,15 +67,15 @@ class ClasificadorRVB(Clasificador):
                     xi = entrenamiento[j][i]
 
                     sumatorio += (y - sigma) * xi
-                    
+
                     # Tasa error
                     # Notación: D+ son los ejemplos (x,y) de D con y = 1; D- son aquellos con y = 0
                     # Primer sumatorio corresponde a D+ y el segundo sumatorio a D-
                     # LL(w) = - Sumatorio (log (1 + e^-w*x)) - Sumatorio (log (1 + e^w*x))
                     if y == 1:
-                        error_ejemplo_y_uno += math.log1p( math.exp( (-self.pesos[i]*xi) ) )
+                        error_ejemplo_y_uno += math.log1p(math.exp((-self.pesos[i] * xi)))
                     elif y == 0:
-                        error_ejemplo_y_cero += math.log1p( math.exp( (self.pesos[i]*xi) ) )
+                        error_ejemplo_y_cero += math.log1p(math.exp((self.pesos[i] * xi)))
 
                 self.pesos[i] = self.pesos[i] + tasa_aprendizaje * sumatorio
 

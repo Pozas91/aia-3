@@ -27,8 +27,7 @@ class ClasificadorRVE(Clasificador):
         entrenamiento = [[1] + elemento for elemento in entrenamiento]
 
         # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
-        entrenamiento, self.norm_medias, self.norm_desviaciones_tipicas = utils.normalizar_si_es_necesario(
-            entrenamiento, self.normalizar)
+        entrenamiento, self.means, self.std = utils.normalizar_si_es_necesario(entrenamiento, self.normalizar)
 
         # Si los pesos iniciales son None, entonces los iniciaremos aleatoriamente con un número de entre -1 y 1
         if not pesos_iniciales:

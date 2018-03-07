@@ -10,8 +10,8 @@ class Clasificador:
         self.normalizar = normalizar
         self.fichero_de_volcado = None
         self.pesos = []
-        self.norm_medias = []
-        self.norm_desviaciones_tipicas = []
+        self.means = []
+        self.std = []
 
     def entrena(self, entrenamiento, clases_entrenamiento, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None,
                 decrementar_tasa=False):
@@ -27,7 +27,7 @@ class Clasificador:
         ejemplo = [1] + ejemplo
 
         # Si se exige normalización, normalizamos
-        ejemplo, media, desviacion_tipica = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar)
+        ejemplo = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.means, self.std)
 
         return self.clases[utils.umbral(utils.pesos_por_atributo(self.pesos, ejemplo))]
 
@@ -41,7 +41,7 @@ class Clasificador:
         ejemplo = [1] + ejemplo
 
         # Si se exige normalización, normalizamos
-        ejemplo, media, desviacion_tipica = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar)
+        ejemplo = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.means, self.std)
 
         return utils.sigmoide(-utils.pesos_por_atributo(self.pesos, ejemplo))
 

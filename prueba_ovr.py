@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import utils
+import random
 from clasificadores.one_vs_rest import ClasificadorOVR
 from clasificadores.perceptron_umbral import ClasificadorPU
-from datasets.digitdata import classes, training_data, training_classes, validation_data, validation_classes, test_classes, \
-    test_data
+from clasificadores.regresion_error_cuadratico_batch import ClasificadorRECB
+from clasificadores.regresion_verosimilitud_estocastica import ClasificadorRVE
+# from datasets.digitdata import classes, training_data, training_classes, validation_data, validation_classes, test_classes, test_data
+from sklearn.datasets import load_iris
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
@@ -21,10 +24,18 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # RVE -> Regresión verosimilitud estocastica
 # 
 # =============================================================================
-clasificadorPU = ClasificadorPU(None)
-clasificadorOVR = ClasificadorOVR(classes, clasificadorPU)
-clasificadorOVR.entrena(training_data, training_classes, 1)
-clasificadorOVR.clasifica(test_data[0])
+iris = load_iris()
+clasificador = ClasificadorPU([])
+clasificadorOVR = ClasificadorOVR(iris.target_names, clasificador)
+clasificadorOVR.entrena(iris.data, iris.target, 10)
+
+indice_aleatorio = random.randrange(len(iris.data))
+ejemplo = iris.data[indice_aleatorio]
+ejemplo_clases = iris.target[indice_aleatorio]
+
+clasificado = clasificadorOVR.clasifica(ejemplo)
+print(clasificado)
+print(iris.target_names[ejemplo_clases])
 
 # =============================================================================
 # FINAL - TIEMPOS DE EJECUCIÓN

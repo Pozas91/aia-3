@@ -218,36 +218,26 @@ def generar_conjunto_dependiente(clases_separables: list, clases: list, porcenta
 
 
 """
-Devuelve la fila introducida normalizada
-"""
-
-
-def normalizar_fila(fila: list) -> (list, float, float):
-    media = np.average(fila)
-    std = np.std(fila)
-    fila = np.subtract(fila, media)
-    fila = np.divide(fila, std)
-    return fila, media, std
-
-
-"""
 Devuelve la tupla (datos_normalizados, norma) una matriz de datos dada.
 """
 
 
 def normalizar_si_es_necesario(datos, normalizar: bool):
-    medias = None
-    desviaciones_tipicas = None
+    means = None
+    std = None
 
     if normalizar:
 
-        medias = [None for _ in range(len(datos))]
-        desviaciones_tipicas = [None for _ in range(len(datos))]
+        # Hacemos la medias por columnas
+        means = np.mean(datos, axis=0)
+        std = np.std(datos, axis=0)
 
         for i, _ in enumerate(datos):
-            datos[i], medias[i], desviaciones_tipicas[i] = normalizar_fila(datos[i])
+            for j, _ in enumerate(datos[i]):
+                datos[i][j] = np.subtract(datos[i][j], means[j])
+                datos[i][j] = np.divide(datos[i][j], std[j])
 
-    return datos, medias, desviaciones_tipicas
+    return datos, means, std
 
 
 """
@@ -255,15 +245,13 @@ Devuelve la tupla (datos_normalizados, norma) para una fila de datos dada.
 """
 
 
-def normalizar_fila_si_es_necesario(fila, normalizar: bool):
-    # Se normaliza por la columna, no por la fila, por eso es necesario guardar la media y la std de la columna.
-    media = None
-    desviacion_tipica = None
-
+def normalizar_fila_si_es_necesario(fila, normalizar: bool, means, std):
     if normalizar:
-        fila, media, desviacion_tipica = normalizar_fila(fila)
+        for i, _ in enumerate(fila):
+            fila[i] = np.subtract(fila[i], means[i])
+            fila[i] = np.divide(fila[i], std[i])
 
-    return fila, media, desviacion_tipica
+    return fila
 
 
 """

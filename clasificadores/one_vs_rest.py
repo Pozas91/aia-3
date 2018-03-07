@@ -14,7 +14,7 @@ class ClasificadorOVR:
 
     def entrena(self, entrenamiento: list, clases_entrenamiento: list, n_epochs):
         for clase in self.clases:
-            clases_entrenamiento_aux = ['1' if valor == clase else '0' for valor in clases_entrenamiento]
+            clases_entrenamiento_aux = [clase if valor == self.clases.tolist().index(clase) else '-' for valor in clases_entrenamiento]
             self.clasificador.clases = ['-', clase]
             self.clasificador.entrena(entrenamiento, clases_entrenamiento_aux, n_epochs)
             self.entrenamientos.append(self.clasificador)

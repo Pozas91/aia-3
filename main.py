@@ -19,11 +19,11 @@ start_time = utils.comienzo_tiempo_ejecucion()
 # INICIALIZANDO CLASIFICADORES
 # =============================================================================
 
-clasificadorPU = ClasificadorPU(clases)
-clasificadorRECB = ClasificadorRECB(clases)
-clasificadorRECE = ClasificadorRECE(clases)
-clasificadorRVB = ClasificadorRVB(clases)
-clasificadorRVE = ClasificadorRVE(clases)
+clasificadorPU = ClasificadorPU(clases, norm=True)
+clasificadorRECB = ClasificadorRECB(clases, norm=True)
+clasificadorRECE = ClasificadorRECE(clases, norm=True)
+clasificadorRVB = ClasificadorRVB(clases, norm=True)
+clasificadorRVE = ClasificadorRVE(clases, norm=True)
 
 # =============================================================================
 # ENTRENAMIENTO CLASIFICADORES

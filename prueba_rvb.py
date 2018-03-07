@@ -21,7 +21,7 @@ clasificadorRVB = ClasificadorRVB(clases, norm=False)
 # =============================================================================
 
 # Número de epochs a realizar
-n_epochs = 10
+n_epochs = 100
 tasa_aprendizaje = 0.1
 decrementar_tasa = False
 

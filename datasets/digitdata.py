@@ -21,10 +21,8 @@ def extract_data(images_file: str, labels_file: str) -> (list, list):
                 # Depends of character assign a number (0 to blank, 1 to plus, and 2 to others)
                 if character == ' ':
                     number.append(0)
-                elif character == '+':
-                    number.append(1)
                 else:
-                    number.append(2)
+                    number.append(1)
 
                 index += 1
 
