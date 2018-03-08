@@ -23,11 +23,11 @@ class ClasificadorRVB(Clasificador):
         # Guardamos la tasa de aprendizaje inicial
         tasa_aprendizaje_inicial = tasa_aprendizaje
 
-        # Tenemos que añadir el término independiente a cada conjunto de datos
-        entrenamiento = [[1] + elemento for elemento in entrenamiento]
-
         # Si se exige normalizar, normalizamos, si no, se mantiene tal y como viene.
         entrenamiento, self.means, self.std = utils.normalizar_si_es_necesario(entrenamiento, self.normalizar)
+
+        # Tenemos que añadir el término independiente a cada conjunto de datos
+        entrenamiento = [[1] + elemento for elemento in entrenamiento]
 
         # Si los pesos iniciales son None, entonces los iniciaremos aleatoriamente con un número de entre -1 y 1
         if not pesos_iniciales:

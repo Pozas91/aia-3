@@ -23,11 +23,11 @@ class Clasificador:
 
     def clasifica(self, ejemplo):
 
-        # Añadimos el término indendiente
-        ejemplo = [1] + ejemplo
-
         # Si se exige normalización, normalizamos
         ejemplo = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.means, self.std)
+
+        # Añadimos el término indendiente
+        ejemplo = [1] + ejemplo
 
         return self.clases[utils.umbral(utils.pesos_por_atributo(self.pesos, ejemplo))]
 
@@ -37,11 +37,11 @@ class Clasificador:
 
     def clasifica_prob(self, ejemplo):
 
-        # Añadimos el término indendiente
-        ejemplo = [1] + ejemplo
-
         # Si se exige normalización, normalizamos
         ejemplo = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.means, self.std)
+
+        # Añadimos el término indendiente
+        ejemplo = [1] + ejemplo
 
         return utils.sigmoide(-utils.pesos_por_atributo(self.pesos, ejemplo))
 
