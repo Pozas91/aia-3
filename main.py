@@ -9,11 +9,19 @@ from clasificadores.regresion_verosimilitud_batch import ClasificadorRVB
 from clasificadores.regresion_verosimilitud_estocastica import ClasificadorRVE
 from datasets.votos import clases, entrenamiento, clases_entrenamiento, validacion, clases_validacion, test, \
     clases_test, ejemplo, ejemplo_clase
+import numpy as np
 
 # =============================================================================
 # COMIENZO - TIEMPOS DE EJECUCIÓN
 # =============================================================================
 start_time = utils.comienzo_tiempo_ejecucion()
+
+# =============================================================================
+# PREPARANDO DATOS
+# =============================================================================
+clases = np.array(clases)
+clases_entrenamiento = [clases.tolist().index(valor) for valor in clases_entrenamiento]
+clases_test = [clases.tolist().index(clase) for clase in clases_test]
 
 # =============================================================================
 # INICIALIZANDO CLASIFICADORES
@@ -35,7 +43,7 @@ tasa_aprendizaje = 0.1
 decrementar_tasa = False
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
-pesos_iniciales_pu = utils.recuperar_pesos(clasificadorPU.fichero_de_volcado)
+clasificadorPU.cargar_pesos_guardados()
 clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
@@ -72,8 +80,9 @@ clases_ejemplos_dependientes = utils.generar_conjunto_dependiente(clases_ejemplo
 # =====================================================
 # Perceptrón umbral
 # =====================================================
-clase_clasificada = clasificadorPU.clasifica(ejemplo)
-clasificado = "Clasificador PU ha clasificado a: '{0}'".format(clase_clasificada)
+clase_index = clasificadorPU.clasifica(ejemplo)
+clase_probable = clasificadorPU.clases[clase_index]
+clasificado = "Clasificador PU ha clasificado a: '{0}' cuando debería ser '{1}'".format(clase_probable, ejemplo_clase)
 print(clasificado)
 
 # =====================================================
@@ -82,8 +91,8 @@ print(clasificado)
 probabilidad = clasificadorRECB.clasifica_prob(ejemplo)
 clase_probable = clasificadorRECB.clases[round(probabilidad)]
 porcentaje_exito = utils.ponderar_probabilidad(probabilidad)
-clasificado = "Clasificador RECB ha clasificado a: '{0}' con una seguridad del {1:2f}%".format(clase_probable,
-                                                                                               porcentaje_exito)
+clasificado = "Clasificador RECB ha clasificado a: '{0}' con una seguridad del {1:2f}% cuando debería ser '{2}'".format(
+    clase_probable, porcentaje_exito, ejemplo_clase)
 print(clasificado)
 
 # =====================================================
@@ -92,8 +101,9 @@ print(clasificado)
 probabilidad = clasificadorRECE.clasifica_prob(ejemplo)
 clase_probable = clasificadorRECE.clases[round(probabilidad)]
 porcentaje_exito = utils.ponderar_probabilidad(probabilidad)
-clasificado = "Clasificador RECE ha clasificado a: '{0}' con una seguridad del {1:2f}%".format(clase_probable,
-                                                                                               porcentaje_exito)
+clasificado = "Clasificador RECE ha clasificado a: '{0}' con una seguridad del {1:2f}% cuando debería ser '{2}'".format(
+    clase_probable, porcentaje_exito, ejemplo_clase)
+
 print(clasificado)
 
 # =====================================================
@@ -102,8 +112,8 @@ print(clasificado)
 probabilidad = clasificadorRVB.clasifica_prob(ejemplo)
 clase_probable = clasificadorRVB.clases[round(probabilidad)]
 porcentaje_exito = utils.ponderar_probabilidad(probabilidad)
-clasificado = "Clasificador RVB ha clasificado a: '{0}' con una seguridad del {1:2f}%".format(clase_probable,
-                                                                                              porcentaje_exito)
+clasificado = "Clasificador RVB ha clasificado a: '{0}' con una seguridad del {1:2f}% cuando debería ser '{2}'".format(
+    clase_probable, porcentaje_exito, ejemplo_clase)
 print(clasificado)
 
 # =====================================================
@@ -112,8 +122,8 @@ print(clasificado)
 probabilidad = clasificadorRVE.clasifica_prob(ejemplo)
 clase_probable = clasificadorRVE.clases[round(probabilidad)]
 porcentaje_exito = utils.ponderar_probabilidad(probabilidad)
-clasificado = "Clasificador RVE ha clasificado a: '{0}' con una seguridad del {1:2f}%".format(clase_probable,
-                                                                                              porcentaje_exito)
+clasificado = "Clasificador RVE ha clasificado a: '{0}' con una seguridad del {1:2f}% cuando debería ser '{2}'".format(
+    clase_probable, porcentaje_exito, ejemplo_clase)
 print(clasificado)
 
 # =============================================================================

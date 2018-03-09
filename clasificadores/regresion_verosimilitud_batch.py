@@ -9,7 +9,7 @@ import numpy as np
 
 class ClasificadorRVB(Clasificador):
 
-    def __init__(self, clases: list, norm=False):
+    def __init__(self, clases: np.ndarray, norm=False):
         Clasificador.__init__(self, clases, norm)
 
         # Ruta del fichero donde haremos el volcado de información
@@ -71,9 +71,9 @@ class ClasificadorRVB(Clasificador):
                     # Primer sumatorio corresponde a D+ y el segundo sumatorio a D-
                     # LL(w) = - Sumatorio (log (1 + e^-w*x)) - Sumatorio (log (1 + e^w*x))
                     if y == 1:
-                        error_ejemplo_y_uno += math.log1p(math.exp((-self.pesos[i] * xi)))
+                        error_ejemplo_y_uno += math.log1p(math.exp(-z))
                     elif y == 0:
-                        error_ejemplo_y_cero += math.log1p(math.exp((self.pesos[i] * xi)))
+                        error_ejemplo_y_cero += math.log1p(math.exp(z))
 
                 self.pesos[i] = self.pesos[i] + tasa_aprendizaje * sumatorio
 
@@ -86,7 +86,7 @@ class ClasificadorRVB(Clasificador):
                 tasa_aprendizaje = utils.rate_decay(tasa_aprendizaje_inicial, epoch)
 
         # Generamos el gráfico
-        utils.generar_grafico(errores, 'Regresión verosimilitud batch')
+        utils.generar_grafico(errores, 'Regresión verosimilitud batch', y_label='Verosimilitud')
 
         # Guardamos los pesos para reutilizarlos posteriormente
         utils.guardar_pesos(self.fichero_de_volcado, self.pesos)

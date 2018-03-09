@@ -45,7 +45,7 @@ Devuelve la suma del resultado de multiplicar cada valor del atributo con su pes
 """
 
 
-def pesos_por_atributo(w: list, x: list) -> float:
+def pesos_por_atributo(w: list, x: np.ndarray) -> float:
     if len(w) != len(x):
         raise ValueError("El tamaño de w y de x debe ser el mismo.")
 
@@ -108,11 +108,11 @@ Genera un gráfico dado un parámetro de entrada: errores
 """
 
 
-def generar_grafico(errores, title):
+def generar_grafico(errores, title, x_label='Epochs', y_label='Porcentaje de errores'):
     plt.plot(range(1, len(errores) + 1), errores, marker='o')
     plt.title(title)
-    plt.xlabel('Epochs')
-    plt.ylabel('Porcentaje de errores')
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
     plt.savefig('graficos/images/' + title + '.jpg')
     plt.show()
 
@@ -163,7 +163,7 @@ tupla(ejemplos, clases)
 """
 
 
-def generar_conjunto_independiente(total_atributos: int, total_elementos: int, w: list, clases: list) -> (list, list):
+def generar_conjunto_independiente(total_atributos: int, total_elementos: int, w: list, clases: np.ndarray) -> (list, list):
     total_ejemplos = []
     total_clases = []
 
@@ -188,7 +188,7 @@ Genera un conjunto de clases inseparables dado un conjunto separable de clases
 """
 
 
-def generar_conjunto_dependiente(clases_separables: list, clases: list, porcentaje: float):
+def generar_conjunto_dependiente(clases_separables: list, clases: np.ndarray, porcentaje: float):
     total_clases = len(clases_separables)
     total_cogidas = round(total_clases * porcentaje)
     clases_no_separables = deepcopy(clases_separables)
@@ -199,7 +199,7 @@ def generar_conjunto_dependiente(clases_separables: list, clases: list, porcenta
     indices_cogidos = [indices[i] for i in range(0, total_cogidas)]
 
     for i in indices_cogidos:
-        indice_clase = clases.index(clases_no_separables[i])
+        indice_clase = clases.tolist().index(clases_no_separables[i])
         clases_no_separables[i] = clases[0] if indice_clase == 1 else clases[1]
 
     return clases_no_separables

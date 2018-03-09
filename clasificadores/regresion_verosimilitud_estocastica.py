@@ -9,7 +9,7 @@ import numpy as np
 
 class ClasificadorRVE(Clasificador):
 
-    def __init__(self, clases: list, norm=False):
+    def __init__(self, clases: np.ndarray, norm=False):
         Clasificador.__init__(self, clases, norm)
 
         # Ruta del fichero donde haremos el volcado de información
@@ -70,9 +70,9 @@ class ClasificadorRVE(Clasificador):
                     # Primer sumatorio corresponde a D+ y el segundo sumatorio a D-
                     # LL(w) = - Sumatorio (log (1 + e^-w*x)) - Sumatorio (log (1 + e^w*x))
                     if y == 1:
-                        error_ejemplo_y_uno += math.log1p( math.exp( (-self.pesos[j]*xi) ) )
+                        error_ejemplo_y_uno += math.log1p(math.exp(-z))
                     elif y == 0:
-                        error_ejemplo_y_cero += math.log1p( math.exp( (self.pesos[j]*xi) ) )
+                        error_ejemplo_y_cero += math.log1p(math.exp(z))
 
             # Si está activada la opción de decrementar la tasa, la decrementamos
             if decrementar_tasa:
@@ -83,7 +83,7 @@ class ClasificadorRVE(Clasificador):
             errores.append(error)
 
         # Generamos el gráfico
-        utils.generar_grafico(errores, 'Regresión verosimilitud estocástica')
+        utils.generar_grafico(errores, 'Regresión verosimilitud estocástica', y_label='Verosimilitud')
 
         # Guardamos los pesos para reutilizarlos posteriormente
         utils.guardar_pesos(self.fichero_de_volcado, self.pesos)

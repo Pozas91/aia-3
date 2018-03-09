@@ -2,11 +2,12 @@
 
 from clasificadores.clasificador import Clasificador
 from copy import deepcopy
+import numpy as np
 
 
 class ClasificadorOVR:
 
-    def __init__(self, clases: list, clasificador: Clasificador):
+    def __init__(self, clases: np.ndarray, clasificador: Clasificador):
         self.clases = clases
         self.entrenamientos = []
         self.clasificador = clasificador

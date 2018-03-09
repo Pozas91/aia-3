@@ -6,7 +6,7 @@ import numpy as np
 
 class Clasificador:
 
-    def __init__(self, clases: list, normalizar=False):
+    def __init__(self, clases: np.ndarray, normalizar=False):
         self.clases = clases
         self.normalizar = normalizar
         self.fichero_de_volcado = None
@@ -60,14 +60,13 @@ class Clasificador:
 
         # Por cada dato del conjunto de prueba
         for i, _ in enumerate(conjunto_prueba):
+
             # Sacamos la clase clasificada
             clase_clasificada = self.clasifica(conjunto_prueba[i])
 
             res += clase_clasificada == clases_conjunto_prueba[i]
 
-        rendimiento = res / len(conjunto_prueba)
-
-        return rendimiento
+        return res / len(conjunto_prueba)
 
     """
     Este método evalua el rendimiento del clasificador basado en la función sigmoide
@@ -84,13 +83,11 @@ class Clasificador:
             probabilidad_clasificada = self.clasifica_prob(conjunto_prueba[i])
 
             # Asociamos esa probabilidad a una clase
-            clase_clasificada = self.clases[round(probabilidad_clasificada)]
+            clase_clasificada = round(probabilidad_clasificada)
 
             res += clase_clasificada == clases_conjunto_prueba[i]
 
-        rendimiento = res / len(conjunto_prueba)
-
-        return rendimiento
+        return res / len(conjunto_prueba)
 
     """
     Imprime el clasificador
@@ -103,6 +100,6 @@ class Clasificador:
     Carga pesos anteriores para mejorar el resultado
     """
 
-    def cargar_pesos(self):
+    def cargar_pesos_guardados(self):
         # Si tenemos pesos iniciales, los cargamos, si no, pesos es None
         self.pesos = utils.recuperar_pesos(self.fichero_de_volcado)

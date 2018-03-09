@@ -37,8 +37,8 @@ y_test = [classes.tolist().index(clase) for clase in test_classes]
 # INICIALIZANDO CLASIFICADOR
 # =============================================================================
 
-n_epochs = 2
-clasificador = ClasificadorPU([])
+n_epochs = 10
+clasificador = ClasificadorPU(None)
 
 clasificadorOVR = ClasificadorOVR(y_names, clasificador)
 clasificadorOVR.entrena(X_train, y_train, n_epochs)
