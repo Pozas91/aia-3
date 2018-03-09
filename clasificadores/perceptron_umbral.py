@@ -4,11 +4,12 @@ from clasificadores.clasificador import Clasificador
 import random
 import numpy as np
 import utils
+import numpy as np
 
 
 class ClasificadorPU(Clasificador):
 
-    def __init__(self, clases: list, norm=False):
+    def __init__(self, clases: np.ndarray, norm=False):
         Clasificador.__init__(self, clases, norm)
 
         # Ruta del fichero donde haremos el volcado de información

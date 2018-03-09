@@ -9,7 +9,7 @@ import numpy as np
 
 class ClasificadorRECB(Clasificador):
 
-    def __init__(self, clases: list, norm=False):
+    def __init__(self, clases: np.ndarray, norm=False):
         Clasificador.__init__(self, clases, norm)
 
         # Ruta del fichero donde haremos el volcado de información

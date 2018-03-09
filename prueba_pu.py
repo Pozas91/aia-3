@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import utils
+import numpy as np
 from clasificadores.perceptron_umbral import ClasificadorPU
 from datasets.votos import clases, entrenamiento, clases_entrenamiento, validacion, clases_validacion, test, \
     clases_test, ejemplo, ejemplo_clase
@@ -9,6 +10,13 @@ from datasets.votos import clases, entrenamiento, clases_entrenamiento, validaci
 # COMIENZO - TIEMPOS DE EJECUCIÓN
 # =============================================================================
 start_time = utils.comienzo_tiempo_ejecucion()
+
+# =============================================================================
+# PREPARANDO DATOS
+# =============================================================================
+clases = np.array(clases)
+clases_entrenamiento = [clases.tolist().index(valor) for valor in clases_entrenamiento]
+clases_test = [clases.tolist().index(clase) for clase in clases_test]
 
 # =============================================================================
 # INICIALIZANDO CLASIFICADOR
@@ -21,20 +29,21 @@ clasificadorPU = ClasificadorPU(clases)
 # =============================================================================
 
 # Número de epochs a realizar
-n_epochs = 1000
+n_epochs = 100
 tasa_aprendizaje = 0.1
 decrementar_tasa = False
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
-pesos_iniciales_pu = utils.recuperar_pesos(clasificadorPU.fichero_de_volcado)
+clasificadorPU.cargar_pesos_guardados()
 clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
 
 # =============================================================================
 # CLASIFICACION DE EJEMPLOS
 # =============================================================================
 
-clase_clasificada = clasificadorPU.clasifica(ejemplo)
-clasificado = "Clasificador PU ha clasificado a: '{0}' cuando debería ser '{1}'".format(clase_clasificada, ejemplo_clase)
+clase_index = clasificadorPU.clasifica(ejemplo)
+clase_probable = clasificadorPU.clases[clase_index]
+clasificado = "Clasificador PU ha clasificado a: '{0}' cuando debería ser '{1}'".format(clase_probable, ejemplo_clase)
 print(clasificado)
 
 # =============================================================================

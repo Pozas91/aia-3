@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import utils
+import numpy as np
 from clasificadores.regresion_error_cuadratico_batch import ClasificadorRECB
 from datasets.votos import clases, entrenamiento, clases_entrenamiento, validacion, clases_validacion, test, \
     clases_test, ejemplo, ejemplo_clase
@@ -9,6 +10,13 @@ from datasets.votos import clases, entrenamiento, clases_entrenamiento, validaci
 # COMIENZO - TIEMPOS DE EJECUCIÓN
 # =============================================================================
 start_time = utils.comienzo_tiempo_ejecucion()
+
+# =============================================================================
+# PREPARANDO DATOS
+# =============================================================================
+clases = np.array(clases)
+clases_entrenamiento = [clases.tolist().index(valor) for valor in clases_entrenamiento]
+clases_test = [clases.tolist().index(clase) for clase in clases_test]
 
 # =============================================================================
 # INICIALIZANDO CLASIFICADOR
@@ -36,8 +44,8 @@ clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_in
 probabilidad = clasificadorRECB.clasifica_prob(ejemplo)
 clase_probable = clasificadorRECB.clases[round(probabilidad)]
 porcentaje_exito = utils.ponderar_probabilidad(probabilidad)
-clasificado = "Clasificador RECB ha clasificado a: '{0}' con una seguridad del {1:2f}%".format(clase_probable,
-                                                                                               porcentaje_exito)
+clasificado = "Clasificador RECB ha clasificado a: '{0}' con una seguridad del {1:2f}% cuando debería ser '{2}'".format(
+    clase_probable, porcentaje_exito, ejemplo_clase)
 print(clasificado)
 
 # =============================================================================
