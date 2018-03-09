@@ -17,6 +17,8 @@
 # -1: voto no
 # 0: "Present" (similar a la abstención)
 
+import random
+
 clases = ['republicano', 'democrata']
 
 entrenamiento = [[-1, 1, -1, 1, 1, 1, -1, -1, -1, 1, 0, 1, 1, 1, -1, 1],
@@ -895,5 +897,6 @@ clases_test = ['democrata',
                'republicano',
                'republicano']
 
-ejemplo = [-1, 1, -1, 1, 1, 1, -1, -1, -1, 1, 0, 1, 1, 1, -1, 1]
-ejemplo_clase = 'republicano'
+indice_aleatorio = random.randrange(len(entrenamiento))
+ejemplo = entrenamiento[indice_aleatorio]
+ejemplo_clase = clases_entrenamiento[indice_aleatorio]

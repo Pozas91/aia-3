@@ -21,7 +21,7 @@ clasificadorPU = ClasificadorPU(clases)
 # =============================================================================
 
 # Número de epochs a realizar
-n_epochs = 100
+n_epochs = 1000
 tasa_aprendizaje = 0.1
 decrementar_tasa = False
 
@@ -34,7 +34,7 @@ clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
 # =============================================================================
 
 clase_clasificada = clasificadorPU.clasifica(ejemplo)
-clasificado = "Clasificador PU ha clasificado a: '{0}'".format(clase_clasificada)
+clasificado = "Clasificador PU ha clasificado a: '{0}' cuando debería ser '{1}'".format(clase_clasificada, ejemplo_clase)
 print(clasificado)
 
 # =============================================================================

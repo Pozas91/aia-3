@@ -2,6 +2,7 @@
 
 from clasificadores.clasificador import Clasificador
 import random
+import numpy as np
 import utils
 
 
@@ -13,9 +14,6 @@ class ClasificadorPU(Clasificador):
         # Ruta del fichero donde haremos el volcado de información
         self.fichero_de_volcado = "datasets/pesos/pu"
 
-        # Si tenemos pesos iniciales, los cargamos, si no, pesos es None
-        self.pesos = utils.recuperar_pesos(self.fichero_de_volcado)
-
     def entrena(self, entrenamiento, clases_entrenamiento, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None,
                 decrementar_tasa=False):
 
@@ -26,7 +24,7 @@ class ClasificadorPU(Clasificador):
         entrenamiento, self.means, self.std = utils.normalizar_si_es_necesario(entrenamiento, self.normalizar)
 
         # Tenemos que añadir el término independiente a cada conjunto de datos
-        entrenamiento = [[1] + elemento for elemento in entrenamiento]
+        entrenamiento = np.insert(entrenamiento, 0, 1, axis=1)
 
         # Numero de epochs (veces que se itera sobre el conjunto completo de datos)
 
@@ -55,11 +53,19 @@ class ClasificadorPU(Clasificador):
 
             for i in random_indices:
 
-                o = utils.umbral(utils.pesos_por_atributo(self.pesos, entrenamiento[i]))
-                y = utils.convierte_republicano_democrata(clases_entrenamiento[i])
+                # Multiplicamos los pesos por los atributos
+                wx = utils.pesos_por_atributo(self.pesos, entrenamiento[i])
+
+                # Sacamos nuestra clase actual
+                o = utils.umbral(wx)
+
+                # Sacamos cual es nuestra clase objetivo
+                y = clases_entrenamiento[i]
+
                 actualizacion = tasa_aprendizaje * (y - o)
 
                 for j, _ in enumerate(entrenamiento[i]):
+
                     # Actualizamos el pesos
                     self.pesos[j] += entrenamiento[i][j] * actualizacion
 

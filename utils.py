@@ -80,18 +80,6 @@ def rate_decay(tasa_inicial: float, epoch: int) -> float:
 
 
 """
-Convirte republicano en 0 y demócrata en 1
-"""
-
-
-def convierte_republicano_democrata(voto):
-    if voto == 'republicano':
-        return 0
-    else:
-        return 1
-
-
-"""
 Vuelca la información de los pesos iniciales en el fichero indicado
 """
 

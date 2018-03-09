@@ -4,6 +4,7 @@ from clasificadores.clasificador import Clasificador
 import random
 import utils
 import math
+import numpy as np
 
 
 class ClasificadorRECE(Clasificador):
@@ -27,11 +28,11 @@ class ClasificadorRECE(Clasificador):
         entrenamiento, self.means, self.std = utils.normalizar_si_es_necesario(entrenamiento, self.normalizar)
 
         # Tenemos que añadir el término independiente a cada conjunto de datos
-        entrenamiento = [[1] + elemento for elemento in entrenamiento]
+        entrenamiento = np.insert(entrenamiento, 0, 1, axis=1)
 
         # Si los pesos iniciales son None, entonces los iniciaremos aleatoriamente con un número de entre -1 y 1
         if not pesos_iniciales:
-            self.pesos = [random.uniform(-1, 1) for i in range(0, len(entrenamiento[0]))]
+            self.pesos = [random.uniform(-1, 1) for _ in range(len(entrenamiento[0]))]
         else:
             self.pesos = pesos_iniciales
 
@@ -53,7 +54,7 @@ class ClasificadorRECE(Clasificador):
                 for j, _ in enumerate(entrenamiento[i]):
 
                     # Comprobamos cual es nuestra clase objetivo y(j)
-                    y = self.clases.index(clases_entrenamiento[i])
+                    y = clases_entrenamiento[i]
 
                     # Sacamos el vector de pesos por x(j)
                     z = utils.pesos_por_atributo(self.pesos, entrenamiento[i])

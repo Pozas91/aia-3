@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import utils
+import numpy as np
 
 
 class Clasificador:
@@ -26,10 +27,10 @@ class Clasificador:
         # Si se exige normalización, normalizamos
         ejemplo = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.means, self.std)
 
-        # Añadimos el término indendiente
-        ejemplo = [1] + ejemplo
+        # Tenemos que añadir el término independiente a cada conjunto de datos
+        ejemplo = np.insert(ejemplo, 0, 1)
 
-        return self.clases[utils.umbral(utils.pesos_por_atributo(self.pesos, ejemplo))]
+        return utils.umbral(utils.pesos_por_atributo(self.pesos, ejemplo))
 
     """
     Este método clasifica el ejemplo dado basado en la función sigmoide
@@ -40,10 +41,13 @@ class Clasificador:
         # Si se exige normalización, normalizamos
         ejemplo = utils.normalizar_fila_si_es_necesario(ejemplo, self.normalizar, self.means, self.std)
 
-        # Añadimos el término indendiente
-        ejemplo = [1] + ejemplo
+        # Tenemos que añadir el término independiente a cada conjunto de datos
+        ejemplo = np.insert(ejemplo, 0, 1)
 
-        return utils.sigmoide(-utils.pesos_por_atributo(self.pesos, ejemplo))
+        # Cogemos los pesos por los atributos
+        wx = utils.pesos_por_atributo(self.pesos, ejemplo.tolist())
+
+        return utils.sigmoide(-wx)
 
     """
     Este método evalua el rendimiento del clasificador basado en la función umbral
@@ -91,5 +95,14 @@ class Clasificador:
     """
     Imprime el clasificador
     """
+
     def imprime(self):
         return self.pesos
+
+    """
+    Carga pesos anteriores para mejorar el resultado
+    """
+
+    def cargar_pesos(self):
+        # Si tenemos pesos iniciales, los cargamos, si no, pesos es None
+        self.pesos = utils.recuperar_pesos(self.fichero_de_volcado)
