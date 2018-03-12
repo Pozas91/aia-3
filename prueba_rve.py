@@ -36,6 +36,8 @@ decrementar_tasa = False
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rve = utils.recuperar_pesos(clasificadorRVE.fichero_de_volcado)
 clasificadorRVE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rve)
+clasificadorRVE.mostrar_grafico('Regresión verosimilitud estocástico', 'Verosimilitud')
+clasificadorRVE.guardar_pesos()
 
 # =============================================================================
 # CLASIFICACION DE EJEMPLOS

@@ -41,8 +41,6 @@ class ClasificadorPU(Clasificador):
         else:
             self.pesos = pesos_iniciales
 
-        errores = []
-
         for epoch in range(1, n_epochs + 1):
 
             # o = umbral (w * x)
@@ -73,14 +71,8 @@ class ClasificadorPU(Clasificador):
                     # Almacenamos el error
                     error += int(actualizacion != 0.0)
 
-            errores.append(error)
+            self.errores.append(error)
 
             # Si está activada la opción de decrementar la tasa, la decrementamos
             if decrementar_tasa:
                 tasa_aprendizaje = utils.rate_decay(tasa_aprendizaje_inicial, epoch)
-
-        # Generamos el gráfico
-        utils.generar_grafico(errores, 'Perceptrón Umbral')
-
-        # Guardamos los pesos para reutilizarlos posteriormente
-        utils.guardar_pesos(self.fichero_de_volcado, self.pesos)

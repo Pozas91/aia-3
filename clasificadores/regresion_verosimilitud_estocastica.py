@@ -33,9 +33,6 @@ class ClasificadorRVE(Clasificador):
         else:
             self.pesos = pesos_iniciales
 
-        # Lista de los errores
-        errores = []
-
         for epoch in range(1, n_epochs + 1):
 
             # Inicializamos las variables para calcular la tasa de error
@@ -80,10 +77,4 @@ class ClasificadorRVE(Clasificador):
 
             # Guardamos el error en la lista
             error = - error_ejemplo_y_uno - error_ejemplo_y_cero
-            errores.append(error)
-
-        # Generamos el gráfico
-        utils.generar_grafico(errores, 'Regresión verosimilitud estocástica', y_label='Verosimilitud')
-
-        # Guardamos los pesos para reutilizarlos posteriormente
-        utils.guardar_pesos(self.fichero_de_volcado, self.pesos)
+            self.errores.append(error)

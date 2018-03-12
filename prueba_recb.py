@@ -36,6 +36,8 @@ decrementar_tasa = False
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_recb = utils.recuperar_pesos(clasificadorRECB.fichero_de_volcado)
 clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_recb)
+clasificadorRECB.mostrar_grafico('Regresión error cuadrático batch')
+clasificadorRECB.guardar_pesos()
 
 # =============================================================================
 # CLASIFICACION DE EJEMPLOS
