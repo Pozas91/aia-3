@@ -33,9 +33,6 @@ class ClasificadorRVB(Clasificador):
         else:
             self.pesos = pesos_iniciales
 
-        # Lista de los errores
-        errores = []
-
         # para cada ejemplo del conjunto dividir restarle su media y dividirle la desviación tipica
 
         for epoch in range(1, n_epochs + 1):
@@ -79,14 +76,8 @@ class ClasificadorRVB(Clasificador):
 
             # Guardamos el error en la lista
             error = - error_ejemplo_y_uno - error_ejemplo_y_cero
-            errores.append(error)
+            self.errores.append(error)
 
             # Si está activada la opción de decrementar la tasa, la decrementamos
             if decrementar_tasa:
                 tasa_aprendizaje = utils.rate_decay(tasa_aprendizaje_inicial, epoch)
-
-        # Generamos el gráfico
-        utils.generar_grafico(errores, 'Regresión verosimilitud batch', y_label='Verosimilitud')
-
-        # Guardamos los pesos para reutilizarlos posteriormente
-        utils.guardar_pesos(self.fichero_de_volcado, self.pesos)

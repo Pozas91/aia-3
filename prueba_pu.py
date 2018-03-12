@@ -36,6 +36,8 @@ decrementar_tasa = False
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 clasificadorPU.cargar_pesos_guardados()
 clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
+clasificadorPU.mostrar_grafico('Percetrón Umbral')
+clasificadorPU.guardar_pesos()
 
 # =============================================================================
 # CLASIFICACION DE EJEMPLOS

@@ -45,22 +45,27 @@ decrementar_tasa = False
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 clasificadorPU.cargar_pesos_guardados()
 clasificadorPU.entrena(entrenamiento, clases_entrenamiento, n_epochs)
+clasificadorPU.mostrar_grafico('Perceptrón Umbral')
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_recb = utils.recuperar_pesos(clasificadorRECB.fichero_de_volcado)
 clasificadorRECB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_recb)
+clasificadorRECB.mostrar_grafico('Regresión error cuadrático batch')
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rece = utils.recuperar_pesos(clasificadorRECE.fichero_de_volcado)
 clasificadorRECE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rece)
+clasificadorRECE.mostrar_grafico('Regresión error cuadrático estocástico')
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rvb = utils.recuperar_pesos(clasificadorRVB.fichero_de_volcado)
 clasificadorRVB.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rvb)
+clasificadorRVB.mostrar_grafico('Regresión verosimilitud batch', 'Verosimilitud')
 
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rve = utils.recuperar_pesos(clasificadorRVE.fichero_de_volcado)
 clasificadorRVE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rve)
+clasificadorRVE.mostrar_grafico('Regresión verosimilitud estocástico', 'Verosimilitud')
 
 # ==================================================================================
 # Conjunto aleatorio de elementos para probar el correcto funcionamiento del sistema

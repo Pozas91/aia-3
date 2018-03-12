@@ -36,6 +36,8 @@ decrementar_tasa = False
 # Si existen pesos anteriores, los recuperará, si no serán 0.
 pesos_iniciales_rece = utils.recuperar_pesos(clasificadorRECE.fichero_de_volcado)
 clasificadorRECE.entrena(entrenamiento, clases_entrenamiento, n_epochs, pesos_iniciales=pesos_iniciales_rece)
+clasificadorRECE.mostrar_grafico('Regresión error cuadrático estocástico')
+clasificadorRECE.guardar_pesos()
 
 # =============================================================================
 # CLASIFICACION DE EJEMPLOS
