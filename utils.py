@@ -164,14 +164,24 @@ def generar_ejemplo_aleatorio(n: int) -> list:
 
 
 """
+Genera un listado de pesos aleatorios [-1, 1]
+"""
+
+
+def generar_pesos_aleatorios(n_pesos: int) -> list:
+    return [random.uniform(-1, 1) for _ in range(0, n_pesos)]
+
+
+"""
 Genera un conjunto completo de ejemplos aleatorios linealmente separables, devuelve como resultado la
 tupla(ejemplos, clases)
 """
 
 
-def generar_conjunto_independiente(total_atributos: int, total_elementos: int, w: list, clases: np.ndarray) -> (list, list):
+def generar_conjunto_separable(total_atributos: int, total_elementos: int, clases: np.ndarray) -> (list, list):
     total_ejemplos = []
     total_clases = []
+    w = generar_pesos_aleatorios(total_atributos)
 
     for _ in range(0, total_elementos):
         # Cada ejemplo será de la misma longitud de un ejemplo que tenemos verificado
@@ -194,7 +204,7 @@ Genera un conjunto de clases inseparables dado un conjunto separable de clases
 """
 
 
-def generar_conjunto_dependiente(clases_separables: list, clases: np.ndarray, porcentaje: float):
+def generar_conjunto_no_separable(clases_separables: list, clases: np.ndarray, porcentaje: float):
     total_clases = len(clases_separables)
     total_cogidas = round(total_clases * porcentaje)
     clases_no_separables = deepcopy(clases_separables)
@@ -288,16 +298,17 @@ def genera_lista_one_vs_rest(clases, ejemplo_clases):
     return aux_clases
 
 
-
 """
 Genera una gráfica para representar en una nube de puntos los datos cargados del dataset
 """
-def representacion_grafica(datos,caracteristicas,
-    objetivo,clases,c1,c2):
-    for tipo,marca,color in zip(range(len(clases)),"soD","rgb"):
-        plt.scatter(datos[objetivo == tipo,c1],
-                    datos[objetivo == tipo,c2],
-                    marker=marca,c=color)
+
+
+def representacion_grafica(datos, caracteristicas,
+                           objetivo, clases, c1, c2):
+    for tipo, marca, color in zip(range(len(clases)), "soD", "rgb"):
+        plt.scatter(datos[objetivo == tipo, c1],
+                    datos[objetivo == tipo, c2],
+                    marker=marca, c=color)
     plt.xlabel(caracteristicas[c1])
     plt.ylabel(caracteristicas[c2])
     plt.legend(clases)

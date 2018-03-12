@@ -30,7 +30,7 @@ class ClasificadorRVE(Clasificador):
 
         # Si los pesos iniciales son None, entonces los iniciaremos aleatoriamente con un número de entre -1 y 1
         if not pesos_iniciales:
-            self.pesos = [random.uniform(-1, 1) for i in range(0, len(entrenamiento[0]))]
+            self.pesos = utils.generar_pesos_aleatorios(len(entrenamiento[0]))
         else:
             self.pesos = pesos_iniciales
 
