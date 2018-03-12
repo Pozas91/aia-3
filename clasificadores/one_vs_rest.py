@@ -13,12 +13,15 @@ class ClasificadorOVR:
         self.clasificador = clasificador
         self.clasificador_sin_entrenar = deepcopy(clasificador)
 
-    def entrena(self, entrenamiento: list, clases_entrenamiento: list, n_epochs):
+    def entrena(self, entrenamiento: list, clases_entrenamiento: list, n_epochs, tasa_aprendizaje=0.1,
+                decrementar_tasa=False):
+
         for clase in self.clases:
             self.clasificador.clases = ['-', clase]
             clases_entrenamiento_aux = [1 if valor == self.clases.tolist().index(clase) else 0 for valor in
                                         clases_entrenamiento]
-            self.clasificador.entrena(entrenamiento, clases_entrenamiento_aux, n_epochs)
+            self.clasificador.entrena(entrenamiento, clases_entrenamiento_aux, n_epochs,
+                                      tasa_aprendizaje=tasa_aprendizaje, decrementar_tasa=decrementar_tasa)
             self.entrenamientos.append(self.clasificador)
             self.clasificador = deepcopy(self.clasificador_sin_entrenar)
 
@@ -44,7 +47,6 @@ class ClasificadorOVR:
 
         # Por cada dato del conjunto de prueba
         for i, _ in enumerate(conjunto_prueba):
-
             # Sacamos la clase clasificada
             _, max_class_index = self.clasifica(conjunto_prueba[i])
 
