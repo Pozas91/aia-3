@@ -5,6 +5,7 @@ import random
 import numpy as np
 import utils
 import numpy as np
+import os
 
 
 class ClasificadorPU(Clasificador):
@@ -13,7 +14,7 @@ class ClasificadorPU(Clasificador):
         Clasificador.__init__(self, clases, norm)
 
         # Ruta del fichero donde haremos el volcado de información
-        self.fichero_de_volcado = "datasets/pesos/pu"
+        self.fichero_de_volcado = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../datasets/pesos/pu')
 
     def entrena(self, entrenamiento, clases_entrenamiento, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None,
                 decrementar_tasa=False):

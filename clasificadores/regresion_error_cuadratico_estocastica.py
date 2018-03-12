@@ -5,6 +5,7 @@ import random
 import utils
 import math
 import numpy as np
+import os
 
 
 class ClasificadorRECE(Clasificador):
@@ -13,10 +14,7 @@ class ClasificadorRECE(Clasificador):
         Clasificador.__init__(self, clases, norm)
 
         # Ruta del fichero donde haremos el volcado de información
-        self.fichero_de_volcado = "datasets/pesos/rece"
-
-        # Si tenemos pesos iniciales, los cargamos, si no, pesos es None
-        self.pesos = utils.recuperar_pesos(self.fichero_de_volcado)
+        self.fichero_de_volcado = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../datasets/pesos/rece')
 
     def entrena(self, entrenamiento, clases_entrenamiento, n_epochs, tasa_aprendizaje=0.1, pesos_iniciales=None,
                 decrementar_tasa=False):

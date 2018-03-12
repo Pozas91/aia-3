@@ -1,3 +1,5 @@
+import os
+
 matrix_dimensions = 28
 max_length_index = matrix_dimensions ** 2
 
@@ -50,8 +52,8 @@ def extract_data(images_file: str, labels_file: str) -> (list, list):
 
 classes = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-training_data, training_classes = extract_data('datasets/digitdata/trainingimages', 'datasets/digitdata/traininglabels')
+training_data, training_classes = extract_data(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'digitdata/trainingimages'), os.path.join(os.path.dirname(os.path.abspath(__file__)), 'digitdata/traininglabels'))
 
-test_data, test_classes = extract_data('datasets/digitdata/testimages', 'datasets/digitdata/testlabels')
+test_data, test_classes = extract_data(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'digitdata/testimages'), os.path.join(os.path.dirname(os.path.abspath(__file__)), 'digitdata/testlabels'))
 
-validation_data, validation_classes = extract_data('datasets/digitdata/validationimages', 'datasets/digitdata/validationlabels')
+validation_data, validation_classes = extract_data(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'digitdata/validationimages'), os.path.join(os.path.dirname(os.path.abspath(__file__)), 'digitdata/validationlabels'))

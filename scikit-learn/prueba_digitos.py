@@ -10,7 +10,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
-from datasets.digitdata import classes, training_data, training_classes, validation_data, validation_classes, test_classes, test_data
+from datasets.digitdata import classes, training_data, training_classes, validation_data, validation_classes, \
+    test_classes, test_data
 from utils import *
 
 import numpy as np
@@ -26,7 +27,6 @@ y_train = [classes.tolist().index(clase) for clase in training_classes]
 X_test = test_data
 y_test = [classes.tolist().index(clase) for clase in test_classes]
 
-
 # =============================================================================
 # CONJUNTO DE ENTRENAMIENTO
 # =============================================================================
@@ -34,27 +34,26 @@ normalizador = StandardScaler().fit(X_train)
 
 Xn_train = normalizador.transform(X_train)
 
-
 # =============================================================================
 # ALGORITMO KNN
 # =============================================================================
 knn = KNeighborsClassifier()
 
-param_grid={
-            'n_neighbors' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-            'algorithm' : ['auto', 'ball_tree', 'kd_tree', 'brute']
-           }
+param_grid = {
+    'n_neighbors': [5, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29],
+    'algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute']
+}
 
 clf_knn = GridSearchCV(knn, param_grid)
 # Método fit
-clf_knn.fit(Xn_train,y_train)
+clf_knn.fit(Xn_train, y_train)
 
 # Método predict
 Xn_test = normalizador.transform(X_test)
 clf_knn.predict(Xn_test)
 
 # Método score
-score_knn = clf_knn.score(Xn_test,y_test)
+score_knn = clf_knn.score(Xn_test, y_test)
 
 print("Porcentaje de aciertos sobre un conjunto de prueba (KNN): {0:.2f} %".format(score_knn * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_knn.best_params_))
@@ -65,22 +64,22 @@ print("*******************************************************")
 # =============================================================================
 lr = linear_model.LinearRegression()
 
-param_grid={
-            'fit_intercept' : [True, False], 
-            'normalize': [True, False]
-            }
+param_grid = {
+    'fit_intercept': [True, False],
+    'normalize': [True, False]
+}
 
 clf_lr = GridSearchCV(lr, param_grid)
 
 # Método fit
-clf_lr.fit(Xn_train,y_train)
+clf_lr.fit(Xn_train, y_train)
 
 # Método predict
 Xn_test = normalizador.transform(X_test)
 clf_lr.predict(Xn_test)
 
 # Método score
-score_lr = clf_lr.score(Xn_test,y_test)
+score_lr = clf_lr.score(Xn_test, y_test)
 
 print("Porcentaje de aciertos sobre un conjunto de prueba (Linear Regression): {0:.2f} %".format(score_lr * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_lr.best_params_))
@@ -91,12 +90,12 @@ print("*******************************************************")
 # =============================================================================
 tree = DecisionTreeClassifier()
 
-param_grid={
-            'criterion' : ['gini', 'entropy'],
-            'random_state' : [25,50,80,100],
-            'max_depth' : [2,3,4,5],
-            'min_samples_leaf' : [1,2,3,4,5]
-            }
+param_grid = {
+    'criterion': ['gini', 'entropy'],
+    'random_state': [25, 50, 80, 100],
+    'max_depth': [2, 3, 4, 5],
+    'min_samples_leaf': [1, 2, 3, 4, 5]
+}
 
 clf_tree = GridSearchCV(tree, param_grid)
 
@@ -108,7 +107,7 @@ Xn_test = normalizador.transform(X_test)
 clf_tree.predict(Xn_test)
 
 # Método score
-score_tree = clf_tree.score(Xn_test,y_test)
+score_tree = clf_tree.score(Xn_test, y_test)
 
 print("Porcentaje de aciertos sobre un conjunto de prueba (Árbol de decisión): {0:.2f} %".format(score_tree * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_tree.best_params_))
@@ -119,11 +118,11 @@ print("*******************************************************")
 # =============================================================================
 random_forest = RandomForestClassifier()
 
-param_grid={
-            'random_state' : [25,50,80,100],
-            'max_depth' : [2,3,4,5],
-            'min_samples_leaf' : [1,2,3,4,5]
-            }
+param_grid = {
+    'random_state': [25, 50, 80, 100],
+    'max_depth': [2, 3, 4, 5],
+    'min_samples_leaf': [1, 2, 3, 4, 5]
+}
 
 clf_random_forest = GridSearchCV(random_forest, param_grid)
 
@@ -135,7 +134,7 @@ Xn_test = normalizador.transform(X_test)
 clf_random_forest.predict(Xn_test)
 
 # Método score
-score_random_forest = clf_random_forest.score(Xn_test,y_test)
+score_random_forest = clf_random_forest.score(Xn_test, y_test)
 
 print("Porcentaje de aciertos sobre un conjunto de prueba (Random Forest): {0:.2f} %".format(score_random_forest * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_random_forest.best_params_))
@@ -146,9 +145,9 @@ print("*******************************************************")
 # =============================================================================
 linear_svc = LinearSVC()
 
-param_grid={
-            'random_state' : [25,50,80,100]
-        }
+param_grid = {
+    'random_state': [25, 50, 80, 100]
+}
 
 clf_linear_svc = GridSearchCV(linear_svc, param_grid)
 
@@ -160,7 +159,7 @@ Xn_test = normalizador.transform(X_test)
 clf_linear_svc.predict(Xn_test)
 
 # Método score
-score_linear_svc = clf_linear_svc.score(Xn_test,y_test)
+score_linear_svc = clf_linear_svc.score(Xn_test, y_test)
 
 print("Porcentaje de aciertos sobre un conjunto de prueba (LinearSVC): {0:.2f} %".format(score_linear_svc * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_linear_svc.best_params_))
@@ -171,23 +170,21 @@ print("*******************************************************")
 # =============================================================================
 perceptron = linear_model.SGDClassifier()
 
-param_grid={
-            'loss' : ['hinge','log','modified_huber','squared_hinge','perceptron']
-            }
+param_grid = {
+    'loss': ['hinge', 'log', 'modified_huber', 'squared_hinge', 'perceptron']
+}
 
 clf_perceptron = GridSearchCV(perceptron, param_grid)
 
 # Método fit
-clf_perceptron.fit(Xn_train,y_train)
+clf_perceptron.fit(Xn_train, y_train)
 
 # Método predict
 Xn_test = normalizador.transform(X_test)
 clf_perceptron.predict(Xn_test)
 
 # Método score
-score_perceptron = clf_perceptron.score(Xn_test,y_test)
-
+score_perceptron = clf_perceptron.score(Xn_test, y_test)
 
 print("Porcentaje de aciertos sobre un conjunto de prueba (SGDClassifier): {0:.2f} %".format(score_perceptron * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_perceptron.best_params_))
-
