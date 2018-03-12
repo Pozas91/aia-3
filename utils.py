@@ -58,7 +58,12 @@ Devuelve la función sigma en z.
 
 
 def sigmoide(z: float) -> float:
-    return 1 / (1 + math.exp(z))
+    if z < -500:
+        return 1
+    elif z > 500:
+        return 0
+    else:
+        return 1 / (1 + math.exp(z))
 
 
 """

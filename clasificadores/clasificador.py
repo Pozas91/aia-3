@@ -10,6 +10,7 @@ class Clasificador:
         self.clases = clases
         self.normalizar = normalizar
         self.fichero_de_volcado = None
+        self.errores = []
         self.pesos = []
         self.means = []
         self.std = []
@@ -60,7 +61,6 @@ class Clasificador:
 
         # Por cada dato del conjunto de prueba
         for i, _ in enumerate(conjunto_prueba):
-
             # Sacamos la clase clasificada
             clase_clasificada = self.clasifica(conjunto_prueba[i])
 
@@ -103,3 +103,20 @@ class Clasificador:
     def cargar_pesos_guardados(self):
         # Si tenemos pesos iniciales, los cargamos, si no, pesos es None
         self.pesos = utils.recuperar_pesos(self.fichero_de_volcado)
+
+    """
+    Función que guarda los pesos del modelo aprendido
+    """
+
+    def guardar_pesos(self):
+        utils.guardar_pesos(self.fichero_de_volcado, self.pesos)
+
+    """
+    Generamos el gráfico con el título dado
+    """
+
+    def mostrar_grafico(self, title: str, y_label=''):
+        if y_label == '':
+            utils.generar_grafico(self.errores, title)
+        else:
+            utils.generar_grafico(self.errores, title, y_label)

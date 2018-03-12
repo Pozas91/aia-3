@@ -33,9 +33,6 @@ class ClasificadorRECB(Clasificador):
         else:
             self.pesos = pesos_iniciales
 
-        # Lista de los errores
-        errores = []
-
         for epoch in range(1, n_epochs + 1):
 
             # Inicializamos la variable error
@@ -66,14 +63,8 @@ class ClasificadorRECB(Clasificador):
                 self.pesos[i] = self.pesos[i] + tasa_aprendizaje * sumatorio
 
             # Guardamos el error en la lista
-            errores.append(error)
+            self.errores.append(error)
 
             # Si está activada la opción de decrementar la tasa, la decrementamos
             if decrementar_tasa:
                 tasa_aprendizaje = utils.rate_decay(tasa_aprendizaje_inicial, epoch)
-
-        # Generamos el gráfico
-        utils.generar_grafico(errores, 'Regresión error cuadrático batch')
-
-        # Guardamos los pesos para reutilizarlos posteriormente
-        utils.guardar_pesos(self.fichero_de_volcado, self.pesos)
