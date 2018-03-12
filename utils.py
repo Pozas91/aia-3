@@ -9,6 +9,7 @@ import numpy as np
 from copy import deepcopy
 import glob
 import img2pdf
+from matplotlib import pyplot as plt
 
 """
 Función utilizada para capturar el momento en el que comienza todo.
@@ -285,3 +286,19 @@ def genera_lista_one_vs_rest(clases, ejemplo_clases):
         else:
             aux_clases.append('0')
     return aux_clases
+
+
+
+"""
+Genera una gráfica para representar en una nube de puntos los datos cargados del dataset
+"""
+def representacion_grafica(datos,caracteristicas,
+    objetivo,clases,c1,c2):
+    for tipo,marca,color in zip(range(len(clases)),"soD","rgb"):
+        plt.scatter(datos[objetivo == tipo,c1],
+                    datos[objetivo == tipo,c2],
+                    marker=marca,c=color)
+    plt.xlabel(caracteristicas[c1])
+    plt.ylabel(caracteristicas[c2])
+    plt.legend(clases)
+    plt.show()
