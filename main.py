@@ -72,11 +72,10 @@ clasificadorRVE.mostrar_grafico('Regresión verosimilitud estocástico', 'Verosi
 # ==================================================================================
 
 # Al ejemplo tenemos que añadirle el término independiente
-ejemplos_independientes, clases_ejemplos_independientes = utils.generar_conjunto_independiente(len(ejemplo) + 1, 300,
-                                                                                               clasificadorRVE.pesos,
-                                                                                               clases)
-ejemplos_dependientes = deepcopy(ejemplos_independientes)
-clases_ejemplos_dependientes = utils.generar_conjunto_dependiente(clases_ejemplos_independientes, clases, 0.3)
+ejemplos_separables, clases_ejemplos_separables = utils.generar_conjunto_separable(len(ejemplo) + 1, 300, clases)
+
+ejemplos_no_separables = deepcopy(ejemplos_separables)
+clases_ejemplos_no_separables = utils.generar_conjunto_no_separable(clases_ejemplos_separables, clases, 0.3)
 
 # =============================================================================
 # CLASIFICACION DE EJEMPLOS

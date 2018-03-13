@@ -10,26 +10,28 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
+from datasets.digitdata import classes, training_data, training_classes, validation_data, validation_classes, \
+    test_classes, test_data
 from utils import *
 
-# =============================================================================
-# CARGAMOS EL DATASET
-# =============================================================================
-breast_cancer = load_breast_cancer()
+import numpy as np
 
 # =============================================================================
-# INICIALIZAMOS
-# ====================A=========================================================
-X_cancer, y_cancer = breast_cancer.data, breast_cancer.target
-X_names, y_names = breast_cancer.feature_names, breast_cancer.target_names
+# CARGAMOS EL DATASET E INICIALIZAMOS
+# =============================================================================
 
-representacion_grafica(breast_cancer.data, X_names, y_cancer, y_names, 0, 1)
+# Reducimos el cojunto de entrenamieto para poder dar unos resultados en un tiempo razonable.
+# [:2000] -> Los 2000 primeros elementos
+classes = np.array(classes)
+y_names = classes
+X_train = training_data[:2000]
+y_train = [classes.tolist().index(clase) for clase in training_classes[:2000]]
+X_test = test_data
+y_test = [classes.tolist().index(clase) for clase in test_classes]
 
 # =============================================================================
 # CONJUNTO DE ENTRENAMIENTO
 # =============================================================================
-X_train, X_test, y_train, y_test = train_test_split(X_cancer, y_cancer, test_size=0.15)
-
 normalizador = StandardScaler().fit(X_train)
 
 Xn_train = normalizador.transform(X_train)
@@ -57,7 +59,7 @@ score_knn = clf_knn.score(Xn_test, y_test)
 
 print("Rendimiento (KNN): {0:.2f} %".format(score_knn * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_knn.best_params_))
-print("***************************************************************************************************************")
+print("*******************************************************")
 
 # =============================================================================
 # ALGORITMO LogisticRegression
@@ -82,7 +84,7 @@ score_lr = clf_lr.score(Xn_test, y_test)
 
 print("Rendimiento (Logistic Regression): {0:.2f} %".format(score_lr * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_lr.best_params_))
-print("***************************************************************************************************************")
+print("*******************************************************")
 
 # =============================================================================
 # ALGORITMO ÁRBOL DE DECISIÓN
@@ -110,7 +112,7 @@ score_tree = clf_tree.score(Xn_test, y_test)
 
 print("Rendimiento (Árbol de decisión): {0:.2f} %".format(score_tree * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_tree.best_params_))
-print("***************************************************************************************************************")
+print("*******************************************************")
 
 # =============================================================================
 # ALGORITMO RANDOM FOREST
@@ -138,7 +140,7 @@ score_random_forest = clf_random_forest.score(Xn_test, y_test)
 
 print("Rendimiento (Random Forest): {0:.2f} %".format(score_random_forest * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_random_forest.best_params_))
-print("***************************************************************************************************************")
+print("*******************************************************")
 
 # =============================================================================
 # ALGORITMO LINEAR SVC
@@ -163,7 +165,7 @@ score_linear_svc = clf_linear_svc.score(Xn_test, y_test)
 
 print("Rendimiento (LinearSVC): {0:.2f} %".format(score_linear_svc * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_linear_svc.best_params_))
-print("***************************************************************************************************************")
+print("*******************************************************")
 
 # =============================================================================
 # ALGORITMO PERCEPTRÓN

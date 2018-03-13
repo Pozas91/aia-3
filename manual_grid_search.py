@@ -61,7 +61,7 @@ for p_normalizar in normalizar:
                 # =============================================================================
 
                 rendimiento = clasificador.evalua_prob(conjunto_prueba=test, clases_conjunto_prueba=clases_test)
-                evaluado = "Rendimiento Clasificador RECB Prob.: {0:.1f}%".format(round(rendimiento * 100, 1))
+                evaluado = "Rendimiento Clasificador: {0:.1f}%".format(round(rendimiento * 100, 1))
                 print(evaluado)
 
                 # Cogemos los mejores parámetros
