@@ -40,8 +40,7 @@ Xn_train = normalizador.transform(X_train)
 knn = KNeighborsClassifier()
 
 param_grid = {
-    'n_neighbors': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-                    28, 29, 30],
+    'n_neighbors': [5, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29],
     'algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute']
 }
 
