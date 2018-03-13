@@ -20,10 +20,12 @@ import numpy as np
 # CARGAMOS EL DATASET E INICIALIZAMOS
 # =============================================================================
 
+# Reducimos el cojunto de entrenamieto para poder dar unos resultados en un tiempo razonable.
+# [:2000] -> Los 2000 primeros elementos
 classes = np.array(classes)
 y_names = classes
-X_train = training_data
-y_train = [classes.tolist().index(clase) for clase in training_classes]
+X_train = training_data[:2000]
+y_train = [classes.tolist().index(clase) for clase in training_classes[:2000]]
 X_test = test_data
 y_test = [classes.tolist().index(clase) for clase in test_classes]
 
@@ -121,7 +123,8 @@ random_forest = RandomForestClassifier()
 param_grid = {
     'random_state': [25, 50, 80, 100],
     'max_depth': [2, 3, 4, 5],
-    'min_samples_leaf': [1, 2, 3, 4, 5]
+    'min_samples_leaf': [1, 2, 3, 4, 5],
+    'n_estimators': [8, 10, 12, 15, 30, 50, 100]
 }
 
 clf_random_forest = GridSearchCV(random_forest, param_grid)
