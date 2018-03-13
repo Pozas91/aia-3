@@ -55,7 +55,7 @@ clf_knn.predict(Xn_test)
 # Método score
 score_knn = clf_knn.score(Xn_test, y_test)
 
-print("Porcentaje de aciertos sobre un conjunto de prueba (KNN): {0:.2f} %".format(score_knn * 100))
+print("Rendimiento (KNN): {0:.2f} %".format(score_knn * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_knn.best_params_))
 print("***************************************************************************************************************")
 
@@ -65,8 +65,7 @@ print("*************************************************************************
 lr = linear_model.LogisticRegression()
 
 param_grid = {
-    'penalty': ['l1', 'l2'],
-    'dual': [True, False],
+    'penalty': ['l1', 'l2']
 }
 
 clf_lr = GridSearchCV(lr, param_grid)
@@ -81,7 +80,7 @@ clf_lr.predict(Xn_test)
 # Método score
 score_lr = clf_lr.score(Xn_test, y_test)
 
-print("Porcentaje de aciertos sobre un conjunto de prueba (Linear Regression): {0:.2f} %".format(score_lr * 100))
+print("Rendimiento (Logistic Regression): {0:.2f} %".format(score_lr * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_lr.best_params_))
 print("***************************************************************************************************************")
 
@@ -109,7 +108,7 @@ clf_tree.predict(Xn_test)
 # Método score
 score_tree = clf_tree.score(Xn_test, y_test)
 
-print("Porcentaje de aciertos sobre un conjunto de prueba (Árbol de decisión): {0:.2f} %".format(score_tree * 100))
+print("Rendimiento (Árbol de decisión): {0:.2f} %".format(score_tree * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_tree.best_params_))
 print("***************************************************************************************************************")
 
@@ -137,7 +136,7 @@ clf_random_forest.predict(Xn_test)
 # Método score
 score_random_forest = clf_random_forest.score(Xn_test, y_test)
 
-print("Porcentaje de aciertos sobre un conjunto de prueba (Random Forest): {0:.2f} %".format(score_random_forest * 100))
+print("Rendimiento (Random Forest): {0:.2f} %".format(score_random_forest * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_random_forest.best_params_))
 print("***************************************************************************************************************")
 
@@ -162,7 +161,7 @@ clf_linear_svc.predict(Xn_test)
 # Método score
 score_linear_svc = clf_linear_svc.score(Xn_test, y_test)
 
-print("Porcentaje de aciertos sobre un conjunto de prueba (LinearSVC): {0:.2f} %".format(score_linear_svc * 100))
+print("Rendimiento (LinearSVC): {0:.2f} %".format(score_linear_svc * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_linear_svc.best_params_))
 print("***************************************************************************************************************")
 
@@ -187,5 +186,5 @@ clf_perceptron.predict(Xn_test)
 # Método score
 score_perceptron = clf_perceptron.score(Xn_test, y_test)
 
-print("Porcentaje de aciertos sobre un conjunto de prueba (SGDClassifier): {0:.2f} %".format(score_perceptron * 100))
+print("Rendimiento (SGDClassifier): {0:.2f} %".format(score_perceptron * 100))
 print("Mejores parámetros elegidos: {0}".format(clf_perceptron.best_params_))
