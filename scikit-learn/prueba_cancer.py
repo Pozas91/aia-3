@@ -62,11 +62,11 @@ print("*************************************************************************
 # =============================================================================
 # ALGORITMO LogisticRegression
 # =============================================================================
-lr = linear_model.LinearRegression()
+lr = linear_model.LogisticRegression()
 
 param_grid = {
-    'fit_intercept': [True, False],
-    'normalize': [True, False]
+    'penalty': ['l1', 'l2'],
+    'dual': [True, False],
 }
 
 clf_lr = GridSearchCV(lr, param_grid)
