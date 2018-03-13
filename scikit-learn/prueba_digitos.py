@@ -67,8 +67,7 @@ print("*******************************************************")
 lr = linear_model.LogisticRegression()
 
 param_grid = {
-    'penalty': ['l1', 'l2'],
-    'dual': [True, False],
+    'penalty': ['l1', 'l2']
 }
 
 clf_lr = GridSearchCV(lr, param_grid)
